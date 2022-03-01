@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "Vivawest_scraper"
+version = "0.1.0"
+description = ""
+authors = ["floriankretschmer <floriankretschmer@posteo.de>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+selenium = "^4.1.2"
+beautifulsoup4 = "^4.10.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+gunicorn = "^20.1.0"
+Flask = "^2.0.3"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
