@@ -7,8 +7,9 @@ ENV PATH /usr/local/bin:$PATH
 ENV LANG C.UTF-8
 
 # install system dependencies
+#   the python cryptography package needs to be compiled for raspberrypi -> need gcc, rustc and libssl-dev
 RUN apt-get update \
-    && apt-get -y install gcc make \
+    && apt-get -y install gcc make rustc libssl-dev \
     && rm -rf /var/lib/apt/lists/*s
 
 # installl chromium
@@ -27,6 +28,8 @@ WORKDIR /app
 COPY ./pyproject.toml /app/pyproject.toml
 
 RUN poetry install --no-dev
+
+RUN apt-get -y remove gcc make rustc libssl-dev
 
 COPY . .
 
