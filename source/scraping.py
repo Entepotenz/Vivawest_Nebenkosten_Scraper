@@ -18,10 +18,10 @@ def scrape_site(SAMPLE_URL: str, username: str, password: str) -> str:
     options = webdriver.ChromeOptions()
     options.add_argument("window-size=1920x1080")
     # options.add_argument("--window-size=800,600")
-    options.add_argument('--no-sandbox')
-    options.add_argument('--disable-gpu')
-    options.add_argument('--headless')
-    options.add_argument('--disable-dev-shm-usage')  # Not used
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--headless")
+    options.add_argument("--disable-dev-shm-usage")  # Not used
     driver = webdriver.Chrome(options=options)
 
     # implicit wait tells WebDriver to poll the DOM for a certain amount of time
@@ -35,78 +35,88 @@ def scrape_site(SAMPLE_URL: str, username: str, password: str) -> str:
     maxWaitTimeInSeconds = 5  # seconds
     try:
         WebDriverWait(driver, maxWaitTimeInSeconds).until(
-            EC.presence_of_element_located(
-                (By.ID, 'cookie-consent-accept-selected')))
+            EC.presence_of_element_located((By.ID, "cookie-consent-accept-selected"))
+        )
         WebDriverWait(driver, maxWaitTimeInSeconds).until(
-            EC.element_to_be_clickable(
-                (By.ID, 'cookie-consent-accept-selected')))
-        driver.find_element_by_id('cookie-consent-accept-selected').click()
+            EC.element_to_be_clickable((By.ID, "cookie-consent-accept-selected"))
+        )
+        driver.find_element_by_id("cookie-consent-accept-selected").click()
         # wait until we do not see the cookie banner anymore
         WebDriverWait(driver, maxWaitTimeInSeconds).until(
             EC.invisibility_of_element_located(
-                (By.ID, 'cookie-consent-accept-selected')))
+                (By.ID, "cookie-consent-accept-selected")
+            )
+        )
     except NoSuchElementException as e:
         logging.warning(e)
 
     WebDriverWait(driver, maxWaitTimeInSeconds).until(
-        EC.invisibility_of_element_located(
-            (By.CSS_SELECTOR, '.modal-backdrop')))
+        EC.invisibility_of_element_located((By.CSS_SELECTOR, ".modal-backdrop"))
+    )
 
     WebDriverWait(driver, maxWaitTimeInSeconds).until(
-        EC.visibility_of_element_located((By.ID, "login-username")))
-    driver.find_element_by_id('login-username').send_keys(username)
+        EC.visibility_of_element_located((By.ID, "login-username"))
+    )
+    driver.find_element_by_id("login-username").send_keys(username)
     WebDriverWait(driver, maxWaitTimeInSeconds).until(
-        EC.visibility_of_element_located((By.ID, "login-password")))
-    driver.find_element_by_id('login-password').send_keys(password)
-    driver.find_element_by_id('loginForm').submit()
+        EC.visibility_of_element_located((By.ID, "login-password"))
+    )
+    driver.find_element_by_id("login-password").send_keys(password)
+    driver.find_element_by_id("loginForm").submit()
 
     WebDriverWait(driver, maxWaitTimeInSeconds).until(
-        EC.invisibility_of_element_located(
-            (By.CSS_SELECTOR, '.modal-backdrop')))
+        EC.invisibility_of_element_located((By.CSS_SELECTOR, ".modal-backdrop"))
+    )
 
     try:
         WebDriverWait(driver, maxWaitTimeInSeconds).until(
-            EC.element_to_be_clickable((
-                By.XPATH,
-                '//a[text()="\n\t\t\t\t\t\t\t\t\t\tNebenkosten\n\t\t\t\t\t\t\t\t\t"]'
-            )))
+            EC.element_to_be_clickable(
+                (
+                    By.XPATH,
+                    '//a[text()="\n\t\t\t\t\t\t\t\t\t\tNebenkosten\n\t\t\t\t\t\t\t\t\t"]',
+                )
+            )
+        )
         driver.find_element(
             By.XPATH,
-            '//a[text()="\n\t\t\t\t\t\t\t\t\t\tNebenkosten\n\t\t\t\t\t\t\t\t\t"]'
+            '//a[text()="\n\t\t\t\t\t\t\t\t\t\tNebenkosten\n\t\t\t\t\t\t\t\t\t"]',
         ).click()
     except Exception as e:
         logging.exception(e)
 
     WebDriverWait(driver, maxWaitTimeInSeconds).until(
-        EC.invisibility_of_element_located(
-            (By.CSS_SELECTOR, '.modal-backdrop')))
+        EC.invisibility_of_element_located((By.CSS_SELECTOR, ".modal-backdrop"))
+    )
 
     try:
         WebDriverWait(driver, maxWaitTimeInSeconds).until(
             EC.element_to_be_clickable(
-                (By.XPATH,
-                 '/html/body/div[1]/div/div/div/div/div[2]/div/ul/li[2]/a')))
+                (By.XPATH, "/html/body/div[1]/div/div/div/div/div[2]/div/ul/li[2]/a")
+            )
+        )
         driver.find_element(
-            By.XPATH,
-            '/html/body/div[1]/div/div/div/div/div[2]/div/ul/li[2]/a').click()
+            By.XPATH, "/html/body/div[1]/div/div/div/div/div[2]/div/ul/li[2]/a"
+        ).click()
     except Exception as e:
         logging.exception(e)
 
     WebDriverWait(driver, maxWaitTimeInSeconds).until(
-        EC.element_to_be_clickable((By.ID, "logo")))
+        EC.element_to_be_clickable((By.ID, "logo"))
+    )
 
     WebDriverWait(driver, maxWaitTimeInSeconds).until(
-        EC.invisibility_of_element_located(
-            (By.CSS_SELECTOR, '.modal-backdrop')))
+        EC.invisibility_of_element_located((By.CSS_SELECTOR, ".modal-backdrop"))
+    )
 
     WebDriverWait(driver, maxWaitTimeInSeconds).until(
         EC.visibility_of_element_located(
-            (By.XPATH,
-             "/html/body/div[1]/div/div/div/div/form/div[4]/div/div/div")))
+            (By.XPATH, "/html/body/div[1]/div/div/div/div/form/div[4]/div/div/div")
+        )
+    )
 
     src = driver.page_source
 
-    result_html = '''\
+    result_html = """\
         <!DOCTYPE html>
         <html>
             <head>
@@ -136,23 +146,26 @@ def scrape_site(SAMPLE_URL: str, username: str, password: str) -> str:
                 </style>
             </head>
         <body>
-        '''
+        """
     result_html += "<section>"
     result_html += "<h1>Heizenergie</h1>"
     parser = BeautifulSoup(src, "html.parser")
     tables = parser.findAll("table")
     for table in tables:
-        if table.findParent(
-                "table") is None and 'table-striped' in table.attrs['class']:
+        if (
+            table.findParent("table") is None
+            and "table-striped" in table.attrs["class"]
+        ):
             result_html += str(table)
 
-    select = Select(driver.find_element_by_id('uvi-type'))
-    select.select_by_visible_text('Kaltwasser')
+    select = Select(driver.find_element_by_id("uvi-type"))
+    select.select_by_visible_text("Kaltwasser")
 
     WebDriverWait(driver, maxWaitTimeInSeconds).until(
         EC.visibility_of_element_located(
-            (By.XPATH,
-             "/html/body/div[1]/div/div/div/div/form/div[4]/div/div/div")))
+            (By.XPATH, "/html/body/div[1]/div/div/div/div/form/div[4]/div/div/div")
+        )
+    )
 
     result_html += "</section>"
     result_html += "<section>"
@@ -162,8 +175,10 @@ def scrape_site(SAMPLE_URL: str, username: str, password: str) -> str:
     parser = BeautifulSoup(src, "html.parser")
     tables = parser.findAll("table")
     for table in tables:
-        if table.findParent(
-                "table") is None and 'table-striped' in table.attrs['class']:
+        if (
+            table.findParent("table") is None
+            and "table-striped" in table.attrs["class"]
+        ):
             result_html += str(table)
 
     result_html += "</section>"
@@ -171,17 +186,21 @@ def scrape_site(SAMPLE_URL: str, username: str, password: str) -> str:
     result_html += "</html>"
 
     WebDriverWait(driver, maxWaitTimeInSeconds).until(
-        EC.visibility_of_element_located((By.ID, "user-menu")))
-    driver.find_element_by_id('user-menu').click()
+        EC.visibility_of_element_located((By.ID, "user-menu"))
+    )
+    driver.find_element_by_id("user-menu").click()
 
     WebDriverWait(driver, maxWaitTimeInSeconds).until(
-        EC.element_to_be_clickable((
-            By.XPATH,
-            "//a[contains(@class, 'dropdown-item') and contains(@class, 'logout')]"
-        )))
+        EC.element_to_be_clickable(
+            (
+                By.XPATH,
+                "//a[contains(@class, 'dropdown-item') and contains(@class, 'logout')]",
+            )
+        )
+    )
     driver.find_element(
         By.XPATH,
-        "//a[contains(@class, 'dropdown-item') and contains(@class, 'logout')]"
+        "//a[contains(@class, 'dropdown-item') and contains(@class, 'logout')]",
     ).click()
 
     driver.close()
@@ -193,10 +212,8 @@ def scrape_site(SAMPLE_URL: str, username: str, password: str) -> str:
 
 
 def scrape_site_json(SAMPLE_URL: str, username: str, password: str) -> dict:
-    locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')
-    result = scrape_site(SAMPLE_URL=SAMPLE_URL,
-                         username=username,
-                         password=password)
+    locale.setlocale(locale.LC_ALL, "de_DE.UTF-8")
+    result = scrape_site(SAMPLE_URL=SAMPLE_URL, username=username, password=password)
     result_dict = {}
 
     parser = BeautifulSoup(result, "html.parser")
@@ -227,7 +244,7 @@ def scrape_site_json(SAMPLE_URL: str, username: str, password: str) -> dict:
             headings.append(value)
 
         for i in range(len(headings)):
-            value = table.find("tbody").find("tr").find_all(['th', 'td'])[i]
+            value = table.find("tbody").find("tr").find_all(["th", "td"])[i]
             data[headings[i]] = value.string.strip()
 
         data["datapoints"] = {}
@@ -257,7 +274,7 @@ def is_date(input: str) -> bool:
 
 
 def is_float(input: str) -> bool:
-    locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')
+    locale.setlocale(locale.LC_ALL, "de_DE.UTF-8")
     try:
         _ = locale.atof(input)
     except (TypeError, ValueError):
@@ -267,7 +284,7 @@ def is_float(input: str) -> bool:
 
 
 def is_int(input: str) -> bool:
-    locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')
+    locale.setlocale(locale.LC_ALL, "de_DE.UTF-8")
     try:
         a = locale.atof(input)
         b = int(input)
