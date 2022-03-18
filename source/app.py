@@ -20,5 +20,14 @@ def home():
     return result
 
 
+@app.route('/json')
+def getAsJson():
+    username = os.environ.get('USERNAME', None)
+    password = os.environ.get('PASSWORD', None)
+    result = scraping.scrape_site_json(URL, username, password)
+
+    return result
+
+
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)

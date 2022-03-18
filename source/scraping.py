@@ -1,5 +1,8 @@
 import time
 import logging
+import locale
+import dateutil.parser
+
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -11,7 +14,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
 
 
-def scrape_site(SAMPLE_URL: str, username: str, password: str):
+def scrape_site(SAMPLE_URL: str, username: str, password: str) -> str:
     options = webdriver.ChromeOptions()
     options.add_argument("window-size=1920x1080")
     # options.add_argument("--window-size=800,600")
@@ -103,7 +106,7 @@ def scrape_site(SAMPLE_URL: str, username: str, password: str):
 
     src = driver.page_source
 
-    result = '''\
+    result_html = '''\
         <!DOCTYPE html>
         <html>
             <head>
@@ -134,13 +137,14 @@ def scrape_site(SAMPLE_URL: str, username: str, password: str):
             </head>
         <body>
         '''
-    result += "<h1>Heizenergie</h1>"
+    result_html += "<section>"
+    result_html += "<h1>Heizenergie</h1>"
     parser = BeautifulSoup(src, "html.parser")
     tables = parser.findAll("table")
     for table in tables:
         if table.findParent(
                 "table") is None and 'table-striped' in table.attrs['class']:
-            result += str(table)
+            result_html += str(table)
 
     select = Select(driver.find_element_by_id('uvi-type'))
     select.select_by_visible_text('Kaltwasser')
@@ -150,7 +154,9 @@ def scrape_site(SAMPLE_URL: str, username: str, password: str):
             (By.XPATH,
              "/html/body/div[1]/div/div/div/div/form/div[4]/div/div/div")))
 
-    result += "<h1>Kaltwasser</h1>"
+    result_html += "</section>"
+    result_html += "<section>"
+    result_html += "<h1>Kaltwasser</h1>"
 
     src = driver.page_source
     parser = BeautifulSoup(src, "html.parser")
@@ -158,10 +164,11 @@ def scrape_site(SAMPLE_URL: str, username: str, password: str):
     for table in tables:
         if table.findParent(
                 "table") is None and 'table-striped' in table.attrs['class']:
-            result += str(table)
+            result_html += str(table)
 
-    result += "</body>"
-    result += "</html>"
+    result_html += "</section>"
+    result_html += "</body>"
+    result_html += "</html>"
 
     WebDriverWait(driver, maxWaitTimeInSeconds).until(
         EC.visibility_of_element_located((By.ID, "user-menu")))
@@ -180,6 +187,91 @@ def scrape_site(SAMPLE_URL: str, username: str, password: str):
     driver.close()
 
     # prettify html output
+    parser = BeautifulSoup(result_html, "html.parser")
+    result_html = parser.prettify()
+    return result_html
+
+
+def scrape_site_json(SAMPLE_URL: str, username: str, password: str) -> dict:
+    locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')
+    result = scrape_site(SAMPLE_URL=SAMPLE_URL,
+                         username=username,
+                         password=password)
+    result_dict = {}
+
     parser = BeautifulSoup(result, "html.parser")
-    result = parser.prettify()
-    return result
+
+    sections = parser.find_all("section")
+
+    result_dict["sections"] = []
+    for section in sections:
+        data = {}
+
+        title = section.find("h1")
+        title = title.string.strip()
+        data["title"] = title
+
+        table = section.find("table")
+        headings = []
+        for th in table.find("thead").find_all("th"):
+            value = th.string.strip()
+            if is_date(value):
+                # fix year
+                value = value.replace(" 22", "2022")
+                value = value.replace(" 23", "2023")
+                value = value.replace(" 24", "2024")
+                value = dateutil.parser.parse(value, fuzzy=True)
+                value = value.replace(day=1)  # we do not have day information
+                value = value.isoformat()
+
+            headings.append(value)
+
+        for i in range(len(headings)):
+            value = table.find("tbody").find("tr").find_all(['th', 'td'])[i]
+            data[headings[i]] = value.string.strip()
+
+        data["datapoints"] = {}
+        for key in list(data.keys()):
+            value = data.pop(key)
+            if is_date(key):
+                if is_float(value):
+                    value = locale.atof(value)
+                elif is_int(value):
+                    value = int(value)
+
+                data["datapoints"][key] = value
+            else:
+                data[key] = value
+
+        result_dict["sections"].append(data)
+
+    return result_dict
+
+
+def is_date(input: str) -> bool:
+    try:
+        dateutil.parser.parse(input, fuzzy=True)
+        return True
+    except dateutil.parser.ParserError:
+        return False
+
+
+def is_float(input: str) -> bool:
+    locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')
+    try:
+        _ = locale.atof(input)
+    except (TypeError, ValueError):
+        return False
+    else:
+        return True
+
+
+def is_int(input: str) -> bool:
+    locale.setlocale(locale.LC_ALL, 'de_DE.UTF-8')
+    try:
+        a = locale.atof(input)
+        b = int(input)
+    except (TypeError, ValueError):
+        return False
+    else:
+        return a == b

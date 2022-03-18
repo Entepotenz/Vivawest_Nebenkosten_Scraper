@@ -9,8 +9,12 @@ source "${SCRIPT_DIR}/pass.sh"
 
 docker run --rm -it -v "${SCRIPT_DIR}:/app" -p 127.0.0.1:80:8080 python:3 bash -c "\
     apt-get update \
-        && apt-get -y install gcc make chromium chromium-driver \
+        && apt-get -y install locales gcc make chromium chromium-driver \
+        && sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen \
+        && dpkg-reconfigure --frontend=noninteractive locales \
         && rm -rf /var/lib/apt/lists/*s; \
+    export LANG=\"de_DE.UTF-8\"; \
+    export LC_ALL=\"de_DE.UTF-8\"; \
     pip install --no-cache-dir --upgrade pip; \
     pip install poetry; \
     cd /app; \

@@ -4,7 +4,14 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 ENV PATH /usr/local/bin:$PATH
-ENV LANG C.UTF-8
+
+RUN apt-get update && \
+    apt-get install -y locales && \
+    sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen && \
+    dpkg-reconfigure --frontend=noninteractive locales
+
+ENV LANG de_DE.UTF-8
+ENV LC_ALL de_DE.UTF-8
 
 # install system dependencies
 #   the python cryptography package needs to be compiled for raspberrypi -> need gcc, rustc and libssl-dev
@@ -33,4 +40,4 @@ RUN apt-get -y remove gcc make rustc libssl-dev
 
 COPY . .
 
-CMD ["bash", "-c", "source /app/pass.sh; poetry run python source/main.py"]
+CMD ["bash", "-c", "source /app/pass.sh; poetry run python source/main.py json"]
