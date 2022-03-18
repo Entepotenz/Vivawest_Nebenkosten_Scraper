@@ -17,7 +17,7 @@ def main(argv) -> int:
 
     if len(argv) > 0 and argv[0] == "json":
         result = scraping.scrape_site_json(URL, username, password)
-        result = json.dumps(result, sort_keys=True, indent=4)
+        result = json.dumps(result, sort_keys=True, indent=4, ensure_ascii=False)
     else:
         result = scraping.scrape_site(URL, username, password)
 

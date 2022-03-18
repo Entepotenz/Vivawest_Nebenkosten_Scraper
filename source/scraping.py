@@ -220,13 +220,11 @@ def scrape_site_json(SAMPLE_URL: str, username: str, password: str) -> dict:
 
     sections = parser.find_all("section")
 
-    result_dict["sections"] = []
     for section in sections:
         data = {}
 
         title = section.find("h1")
         title = title.string.strip()
-        data["title"] = title
 
         table = section.find("table")
         headings = []
@@ -260,7 +258,7 @@ def scrape_site_json(SAMPLE_URL: str, username: str, password: str) -> dict:
             else:
                 data[key] = value
 
-        result_dict["sections"].append(data)
+        result_dict[title] = data
 
     return result_dict
 
