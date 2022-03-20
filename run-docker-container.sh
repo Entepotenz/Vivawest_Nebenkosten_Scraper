@@ -21,7 +21,7 @@ if [ "$#" -eq 1 ]; then
     fi
 fi
 
-if [[ "$(docker images -q \"${DOCKER_IMAGE_NAME}\" 2> /dev/null)" == "" ]]; then
+if [[ "$(docker images -q "${DOCKER_IMAGE_NAME}" 2> /dev/null)" == "" ]]; then
   docker build -t "${DOCKER_IMAGE_NAME}" --file "${PATH_TO_DOCKERFILE}" .
 fi
 
