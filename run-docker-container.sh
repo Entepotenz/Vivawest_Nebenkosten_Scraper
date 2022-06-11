@@ -3,9 +3,9 @@
 set -x
 set -e
 
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-DOCKER_IMAGE_NAME="vivawest_scraper"
-PATH_TO_DOCKERFILE="${SCRIPT_DIR}/Dockerfile"
+readonly SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+readonly DOCKER_IMAGE_NAME="vivawest_scraper"
+readonly PATH_TO_DOCKERFILE="${SCRIPT_DIR}/Dockerfile"
 
 touch "${SCRIPT_DIR}/pass.sh"
 chmod u=rw,g=,o= "${SCRIPT_DIR}/pass.sh"
