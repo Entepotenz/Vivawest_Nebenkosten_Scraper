@@ -40,7 +40,7 @@ def scrape_site(SAMPLE_URL: str, username: str, password: str) -> str:
         WebDriverWait(driver, maxWaitTimeInSeconds).until(
             EC.element_to_be_clickable((By.ID, "cookie-consent-accept-selected"))
         )
-        driver.find_element_by_id("cookie-consent-accept-selected").click()
+        driver.find_element(By.ID, "cookie-consent-accept-selected").click()
         # wait until we do not see the cookie banner anymore
         WebDriverWait(driver, maxWaitTimeInSeconds).until(
             EC.invisibility_of_element_located(
@@ -57,12 +57,12 @@ def scrape_site(SAMPLE_URL: str, username: str, password: str) -> str:
     WebDriverWait(driver, maxWaitTimeInSeconds).until(
         EC.visibility_of_element_located((By.ID, "login-username"))
     )
-    driver.find_element_by_id("login-username").send_keys(username)
+    driver.find_element(By.ID, "login-username").send_keys(username)
     WebDriverWait(driver, maxWaitTimeInSeconds).until(
         EC.visibility_of_element_located((By.ID, "login-password"))
     )
-    driver.find_element_by_id("login-password").send_keys(password)
-    driver.find_element_by_id("loginForm").submit()
+    driver.find_element(By.ID, "login-password").send_keys(password)
+    driver.find_element(By.ID, "loginForm").submit()
 
     WebDriverWait(driver, maxWaitTimeInSeconds).until(
         EC.invisibility_of_element_located((By.CSS_SELECTOR, ".modal-backdrop"))
@@ -73,13 +73,13 @@ def scrape_site(SAMPLE_URL: str, username: str, password: str) -> str:
             EC.element_to_be_clickable(
                 (
                     By.XPATH,
-                    '//a[text()="\n\t\t\t\t\t\t\t\t\t\tNebenkosten\n\t\t\t\t\t\t\t\t\t"]',
+                    '//a[text()[contains(.,"Nebenkosten")]]',
                 )
             )
         )
         driver.find_element(
             By.XPATH,
-            '//a[text()="\n\t\t\t\t\t\t\t\t\t\tNebenkosten\n\t\t\t\t\t\t\t\t\t"]',
+            '//a[text()[contains(.,"Nebenkosten")]]',
         ).click()
     except Exception as e:
         logging.exception(e)
@@ -91,12 +91,10 @@ def scrape_site(SAMPLE_URL: str, username: str, password: str) -> str:
     try:
         WebDriverWait(driver, maxWaitTimeInSeconds).until(
             EC.element_to_be_clickable(
-                (By.XPATH, "/html/body/div[1]/div/div/div/div/div[2]/div/ul/li[2]/a")
+                (By.XPATH, '//*[text()[contains(.,"Verbräuche")]]')
             )
         )
-        driver.find_element(
-            By.XPATH, "/html/body/div[1]/div/div/div/div/div[2]/div/ul/li[2]/a"
-        ).click()
+        driver.find_element(By.XPATH, '//*[text()[contains(.,"Verbräuche")]]').click()
     except Exception as e:
         logging.exception(e)
 
@@ -110,7 +108,7 @@ def scrape_site(SAMPLE_URL: str, username: str, password: str) -> str:
 
     WebDriverWait(driver, maxWaitTimeInSeconds).until(
         EC.visibility_of_element_located(
-            (By.XPATH, "/html/body/div[1]/div/div/div/div/form/div[4]/div/div/div")
+            (By.XPATH, '//*[text()[contains(.,"Verbrauch der letzten")]]')
         )
     )
 
@@ -158,12 +156,17 @@ def scrape_site(SAMPLE_URL: str, username: str, password: str) -> str:
         ):
             result_html += str(table)
 
-    select = Select(driver.find_element_by_id("uvi-type"))
+    select = Select(
+        driver.find_element(
+            By.XPATH,
+            '//*[text()[contains(.,"Verbrauchsart auswählen")]]/parent::div/child::select',
+        )
+    )
     select.select_by_visible_text("Kaltwasser")
 
     WebDriverWait(driver, maxWaitTimeInSeconds).until(
         EC.visibility_of_element_located(
-            (By.XPATH, "/html/body/div[1]/div/div/div/div/form/div[4]/div/div/div")
+            (By.XPATH, '//*[text()[contains(.,"Verbrauch der letzten")]]')
         )
     )
 
@@ -188,7 +191,7 @@ def scrape_site(SAMPLE_URL: str, username: str, password: str) -> str:
     WebDriverWait(driver, maxWaitTimeInSeconds).until(
         EC.visibility_of_element_located((By.ID, "user-menu"))
     )
-    driver.find_element_by_id("user-menu").click()
+    driver.find_element(By.ID, "user-menu").click()
 
     WebDriverWait(driver, maxWaitTimeInSeconds).until(
         EC.element_to_be_clickable(
