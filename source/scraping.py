@@ -246,7 +246,8 @@ def scrape_site_json(SAMPLE_URL: str, username: str, password: str) -> dict:
 
         for i in range(len(headings)):
             value = table.find("tbody").find("tr").find_all(["th", "td"])[i]
-            data[headings[i]] = value.string.strip()
+            if value.find('span', class_='cursor-help') is None:
+                data[headings[i]] = value.string.strip()
 
         data["datapoints"] = {}
         for key in list(data.keys()):
