@@ -1,0 +1,4 @@
+ 0 0 * * 0 find "/home/pi/smarthome-muenster/zigbee2mqtt_volume/log/" -type d -mtime +10 -exec rm -f {} \;
+ 0 0 28 * * /home/pi/Vivawest_scraper/run-docker-container.sh | jq > /home/pi/smarthome-muenster/webserver-vivawest_volume/data.json
+ 0 0 * * MON /home/pi/Vivawest_scraper/run-docker-container.sh | jq > /home/pi/smarthome-muenster/webserver-vivawest_volume/data.json
+ 0 23 * * * if ! [ -s "/home/pi/smarthome-muenster/webserver-vivawest_volume/data.json" ]; then /home/pi/Vivawest_scraper/run-docker-container.sh | jq > /home/pi/smarthome-muenster/webserver-vivawest_volume/data.json; fi;
