@@ -19,7 +19,7 @@ RUN apt-get update \
     && apt-get -y install gcc make rustc cargo libssl-dev libffi-dev --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*s
 
-# installl chromium
+# install chromium
 RUN apt-get update \
     && apt-get -y install chromium chromium-driver --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*s
