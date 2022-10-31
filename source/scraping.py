@@ -235,10 +235,15 @@ def scrape_site_json(SAMPLE_URL: str, username: str, password: str) -> dict:
             value = th.string.strip()
             if is_date(value):
                 # fix year
+                value = value.replace(" 21", "2021")
                 value = value.replace(" 22", "2022")
                 value = value.replace(" 23", "2023")
                 value = value.replace(" 24", "2024")
-                value = dateutil.parser.parse(value, fuzzy=True)
+                value = value.replace(" 25", "2025")
+                value = value.replace(" 26", "2026")
+                value = dateutil.parser.parse(
+                    value, fuzzy=True, parserinfo=GermanLocaleParserInfo()
+                )
                 value = value.replace(day=1)  # we do not have day information
                 value = value.isoformat()
 
@@ -246,7 +251,7 @@ def scrape_site_json(SAMPLE_URL: str, username: str, password: str) -> dict:
 
         for i in range(len(headings)):
             value = table.find("tbody").find("tr").find_all(["th", "td"])[i]
-            if value.find('span', class_='cursor-help') is None:
+            if value.find("span", class_="cursor-help") is None:
                 data[headings[i]] = value.string.strip()
 
         data["datapoints"] = {}
@@ -265,6 +270,23 @@ def scrape_site_json(SAMPLE_URL: str, username: str, password: str) -> dict:
         result_dict[title] = data
 
     return result_dict
+
+
+class GermanLocaleParserInfo(dateutil.parser.parserinfo):
+    MONTHS = [
+        ("Jan", "Januar", "January", "Jänner"),
+        ("Feb", "Februar", "February"),
+        ("Mrz", "März", "March", "Mar", "Mär"),
+        ("Apr", "April"),
+        ("Mai", "May"),
+        ("Jun", "Juni", "June"),
+        ("Jul", "Juli", "July"),
+        ("Aug", "August"),
+        ("Sep", "September"),
+        ("Okt", "Oktober", "October", "Oct"),
+        ("Nov", "November"),
+        ("Dez", "Dezember", "Dec", "December"),
+    ]
 
 
 def is_date(input: str) -> bool:
