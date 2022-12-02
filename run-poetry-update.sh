@@ -1,7 +1,9 @@
 #!/bin/bash
 
-docker run --rm -it -v "$(pwd)/:/source" python:3 bash -c "\
+docker run --rm -it -v "$(pwd)/:/source" python:3-slim bash -c "\
     apt-get update; \
     pip install poetry; \
     cd /source; \
-    poetry update"
+    pip install --no-cache-dir --upgrade pip; \
+    poetry update; \
+    poetry export -f requirements.txt --without dev --output /source/requirements.txt"

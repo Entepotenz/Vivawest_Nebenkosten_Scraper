@@ -19,19 +19,15 @@ ENV LC_ALL de_DE.UTF-8
 # install system dependencies
 #   the python cryptography package needs to be compiled for raspberrypi -> need gcc, rustc and libssl-dev
 RUN apt-get update \
-    && apt-get -y install gcc make rustc cargo libssl-dev libffi-dev --no-install-recommends \
+    && apt-get -y install gcc make libssl-dev libffi-dev --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*s
 
+COPY requirements.txt /requirements.txt
 
-COPY pyproject.toml poetry.lock /
+RUN pip install --no-cache-dir --upgrade pip
 
 RUN python3 --version
 RUN pip3 --version
-
-RUN pip install --no-cache-dir --upgrade pip
-RUN pip install poetry
-
-RUN poetry export -f requirements.txt --without dev --output /requirements.txt
 
 RUN pip install --target=/dependencies -r /requirements.txt
 
