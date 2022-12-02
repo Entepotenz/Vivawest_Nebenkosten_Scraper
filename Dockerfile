@@ -1,4 +1,4 @@
-FROM python:3-slim
+FROM python:3-slim as builder
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -19,10 +19,8 @@ RUN apt-get update \
     && apt-get -y install gcc make rustc cargo libssl-dev libffi-dev --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*s
 
-# install chromium
-RUN apt-get update \
-    && apt-get -y install chromium chromium-driver --no-install-recommends \
-    && rm -rf /var/lib/apt/lists/*s
+
+COPY pyproject.toml poetry.lock /
 
 RUN python3 --version
 RUN pip3 --version
@@ -30,16 +28,33 @@ RUN pip3 --version
 RUN pip install --no-cache-dir --upgrade pip
 RUN pip install poetry
 
+RUN poetry export -f requirements.txt --without dev --output /requirements.txt
+
+RUN pip install --target=/dependencies -r /requirements.txt
+
+FROM python:3-slim
+
+RUN apt-get update && \
+    apt-get install -y locales --no-install-recommends && \
+    sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen && \
+    dpkg-reconfigure --frontend=noninteractive locales
+
+ENV LANG de_DE.UTF-8
+ENV LC_ALL de_DE.UTF-8
+
+# install chromium
+RUN apt-get update \
+    && apt-get -y install chromium chromium-driver --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*s
+
+COPY --from=builder /dependencies /usr/local
+ENV PYTHONPATH=/usr/local
+
+RUN python3 --version
+
 WORKDIR /app
-
-COPY ./pyproject.toml /app/pyproject.toml
-
-RUN poetry install --without dev
-
-RUN apt-get -y remove gcc make rustc cargo libssl-dev libffi-dev
-RUN apt-get -y autoremove
 
 COPY . .
 
-CMD ["bash", "-c", "source /app/pass.sh; poetry run python source/main.py json"]
-# CMD ["bash", "-c", "source /app/pass.sh; poetry run python source/main.py"]
+CMD ["bash", "-c", "source /app/pass.sh; python source/main.py json"]
+# CMD ["bash", "-c", "source /app/pass.sh; python source/main.py"]
