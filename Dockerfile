@@ -3,6 +3,9 @@ FROM python:3-slim as builder
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
+# rustc compiler would be needed on ARM type devices but theres an issue with some deps not building..
+ARG CRYPTOGRAPHY_DONT_BUILD_RUST=1
+
 ENV PATH /usr/local/bin:$PATH
 
 RUN apt-get update && \
@@ -33,6 +36,9 @@ RUN poetry export -f requirements.txt --without dev --output /requirements.txt
 RUN pip install --target=/dependencies -r /requirements.txt
 
 FROM python:3-slim
+
+# https://stackoverflow.com/questions/58701233/docker-logs-erroneously-appears-empty-until-container-stops
+ENV PYTHONUNBUFFERED=1
 
 RUN apt-get update && \
     apt-get install -y locales --no-install-recommends && \
