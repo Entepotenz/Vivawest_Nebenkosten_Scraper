@@ -102,6 +102,20 @@ def scrape_site(SAMPLE_URL: str, username: str, password: str) -> str:
         EC.element_to_be_clickable((By.ID, "logo"))
     )
 
+    try:
+        WebDriverWait(driver, maxWaitTimeInSeconds).until(
+            EC.element_to_be_clickable(
+                (By.XPATH, '//*[text()[contains(.,"Zu den Details")]]')
+            )
+        )
+        driver.find_element(By.XPATH, '//*[text()[contains(.,"Zu den Details")]]').click()
+    except Exception as e:
+        logging.exception(e)
+
+    WebDriverWait(driver, maxWaitTimeInSeconds).until(
+        EC.element_to_be_clickable((By.ID, "logo"))
+    )
+
     WebDriverWait(driver, maxWaitTimeInSeconds).until(
         EC.invisibility_of_element_located((By.CSS_SELECTOR, ".modal-backdrop"))
     )
