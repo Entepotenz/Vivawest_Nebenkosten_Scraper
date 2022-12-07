@@ -1,14 +1,18 @@
 #!/bin/bash
 
-set -x
-set -e
+set -o errexit
+set -o pipefail
+set -o nounset
+if [[ "${TRACE-0}" == "1" ]]; then set -o xtrace; fi
 
 readonly SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 readonly DOCKER_IMAGE_NAME="vivawest_scraper"
-readonly PATH_TO_DOCKERFILE="${SCRIPT_DIR}/Dockerfile"
+readonly PATH_TO_DOCKERFILE="$SCRIPT_DIR/Dockerfile"
+readonly PATH_TO_PASS_SH="$SCRIPT_DIR/pass.sh"
+readonly PATH_TO_SOURCE_FOLDER="$SCRIPT_DIR/source/"
 
-touch "${SCRIPT_DIR}/pass.sh"
-chmod u=rw,g=,o= "${SCRIPT_DIR}/pass.sh"
+touch "$PATH_TO_PASS_SH"
+chmod u=rw,g=,o= "$PATH_TO_PASS_SH"
 
 if [ "$#" -eq 1 ]; then
     if [[ -n "$1" ]]; then
@@ -25,4 +29,4 @@ if [[ "$(docker images -q "${DOCKER_IMAGE_NAME}" 2> /dev/null)" == "" ]]; then
   docker build -t "${DOCKER_IMAGE_NAME}" --file "${PATH_TO_DOCKERFILE}" .
 fi
 
-docker run --rm "${DOCKER_IMAGE_NAME}"
+docker run --rm -v "$PATH_TO_PASS_SH:/app/pass.sh" -v "$PATH_TO_SOURCE_FOLDER:/app/source/" "${DOCKER_IMAGE_NAME}"

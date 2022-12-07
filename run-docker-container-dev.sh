@@ -1,13 +1,15 @@
 #!/bin/bash
 
-set -x
-set -e
+set -o errexit
+set -o pipefail
+set -o nounset
+if [[ "${TRACE-0}" == "1" ]]; then set -o xtrace; fi
 
 readonly SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-source "${SCRIPT_DIR}/pass.sh"
+source "$SCRIPT_DIR/pass.sh"
 
-docker run --rm -it -v "${SCRIPT_DIR}:/app" -p 127.0.0.1:80:8080 python:3-slim bash -c "\
+docker run --rm -it -v "$SCRIPT_DIR:/app" -p 127.0.0.1:80:8080 python:3-slim bash -c "\
     apt-get update \
         && apt-get -y install locales gcc make chromium chromium-driver --no-install-recommends \
         && sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen \

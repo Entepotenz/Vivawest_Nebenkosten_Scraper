@@ -56,7 +56,5 @@ RUN python3 --version
 
 WORKDIR /app
 
-COPY . .
-
 CMD ["bash", "-c", "source /app/pass.sh; python source/main.py json"]
 # CMD ["bash", "-c", "source /app/pass.sh; python source/main.py"]
