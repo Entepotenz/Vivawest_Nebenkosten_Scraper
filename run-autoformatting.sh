@@ -3,8 +3,8 @@
 readonly SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 if ! command -v yapf &> /dev/null; then
-    docker run --rm -it -v "$(pwd)/source:/source" python:3 bash -c "\
-        apt-get update; \
+    docker run --rm -it -v "$(pwd)/source:/source" python:3-slim bash -c "\
+        pip install --upgrade pip; \
         pip install yapf; \
         yapf --style google -ir /source"
 else
@@ -12,8 +12,8 @@ else
 fi
 
 if ! command -v black &> /dev/null; then
-    docker run --rm -it -v "$(pwd)/source:/source" python:3 bash -c "\
-        apt-get update; \
+    docker run --rm -it -v "$(pwd)/source:/source" python:3-slim bash -c "\
+        pip install --upgrade pip; \
         pip install black; \
         black /source"
 else
