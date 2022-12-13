@@ -1,4 +1,3 @@
-import logging
 import os
 
 from flask import Flask
@@ -13,7 +12,7 @@ app = Flask(__name__)
 
 
 @app.route("/")
-def home():
+def get_as_html():
     username = os.environ.get("USERNAME", None)
     password = os.environ.get("PASSWORD", None)
     result = scraping.scrape_site(URL, username, password)
@@ -21,7 +20,7 @@ def home():
 
 
 @app.route("/json")
-def getAsJson():
+def get_as_json():
     username = os.environ.get("USERNAME", None)
     password = os.environ.get("PASSWORD", None)
     result = scraping.scrape_site_json(URL, username, password)

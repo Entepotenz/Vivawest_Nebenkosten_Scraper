@@ -9,7 +9,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 
 
-def run_selenium_first_step(SAMPLE_URL: str, username: str, password: str):
+def run_selenium_first_step(url_to_scrape: str, username: str, password: str):
     options = webdriver.ChromeOptions()
     options.add_argument("window-size=1920x1080")
     # options.add_argument("--window-size=800,600")
@@ -25,7 +25,7 @@ def run_selenium_first_step(SAMPLE_URL: str, username: str, password: str):
     # Once set, the implicit wait is set for the life of the WebDriver object.
     driver.implicitly_wait(10)
 
-    driver.get(SAMPLE_URL)
+    driver.get(url_to_scrape)
     time.sleep(5)  # TODO: remove this
     maxWaitTimeInSeconds = 5  # seconds
     try:
@@ -35,8 +35,8 @@ def run_selenium_first_step(SAMPLE_URL: str, username: str, password: str):
         driver.execute_script(
             """return document.querySelector('div#usercentrics-root').shadowRoot.querySelector('button[data-testid="uc-accept-all-button"]')"""
         ).click()
-    except NoSuchElementException as e:
-        logging.warning(e)
+    except NoSuchElementException as exception:
+        logging.warning(exception)
 
     WebDriverWait(driver, maxWaitTimeInSeconds).until(
         EC.invisibility_of_element_located((By.CSS_SELECTOR, ".modal-backdrop"))
@@ -69,8 +69,8 @@ def run_selenium_first_step(SAMPLE_URL: str, username: str, password: str):
             By.XPATH,
             '//a[text()[contains(.,"Nebenkosten")]]',
         ).click()
-    except Exception as e:
-        logging.exception(e)
+    except Exception as exception:
+        logging.exception(exception)
 
     WebDriverWait(driver, maxWaitTimeInSeconds).until(
         EC.invisibility_of_element_located((By.CSS_SELECTOR, ".modal-backdrop"))
@@ -83,8 +83,8 @@ def run_selenium_first_step(SAMPLE_URL: str, username: str, password: str):
             )
         )
         driver.find_element(By.XPATH, '//*[text()[contains(.,"Verbräuche")]]').click()
-    except Exception as e:
-        logging.exception(e)
+    except Exception as exception:
+        logging.exception(exception)
 
     WebDriverWait(driver, maxWaitTimeInSeconds).until(
         EC.element_to_be_clickable((By.ID, "logo"))
@@ -99,8 +99,8 @@ def run_selenium_first_step(SAMPLE_URL: str, username: str, password: str):
         driver.find_element(
             By.XPATH, '//*[text()[contains(.,"Zu den Details")]]'
         ).click()
-    except Exception as e:
-        logging.exception(e)
+    except Exception as exception:
+        logging.exception(exception)
 
     WebDriverWait(driver, maxWaitTimeInSeconds).until(
         EC.element_to_be_clickable((By.ID, "logo"))

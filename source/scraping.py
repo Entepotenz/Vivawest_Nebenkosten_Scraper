@@ -6,8 +6,8 @@ from bs4 import BeautifulSoup
 import selenium_code
 
 
-def scrape_site(SAMPLE_URL: str, username: str, password: str) -> str:
-    driver = selenium_code.run_selenium_first_step(SAMPLE_URL, username, password)
+def scrape_site(url_to_scrape: str, username: str, password: str) -> str:
+    driver = selenium_code.run_selenium_first_step(url_to_scrape, username, password)
     src = driver.page_source
 
     result_html = """\
@@ -80,9 +80,9 @@ def scrape_site(SAMPLE_URL: str, username: str, password: str) -> str:
     return result_html
 
 
-def scrape_site_json(SAMPLE_URL: str, username: str, password: str) -> dict:
+def scrape_site_json(url_to_scrape: str, username: str, password: str) -> dict:
     locale.setlocale(locale.LC_ALL, "de_DE.UTF-8")
-    result = scrape_site(SAMPLE_URL=SAMPLE_URL, username=username, password=password)
+    result = scrape_site(url_to_scrape=url_to_scrape, username=username, password=password)
     result_dict = {}
 
     parser = BeautifulSoup(result, "html.parser")
