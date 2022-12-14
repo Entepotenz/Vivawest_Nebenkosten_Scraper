@@ -1,6 +1,6 @@
 import locale
-import dateutil.parser
 
+import dateutil.parser
 from bs4 import BeautifulSoup
 
 import selenium_code
@@ -82,7 +82,9 @@ def scrape_site(url_to_scrape: str, username: str, password: str) -> str:
 
 def scrape_site_json(url_to_scrape: str, username: str, password: str) -> dict:
     locale.setlocale(locale.LC_ALL, "de_DE.UTF-8")
-    result = scrape_site(url_to_scrape=url_to_scrape, username=username, password=password)
+    result = scrape_site(
+        url_to_scrape=url_to_scrape, username=username, password=password
+    )
     result_dict = {}
 
     parser = BeautifulSoup(result, "html.parser")

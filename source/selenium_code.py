@@ -30,7 +30,9 @@ def run_selenium_first_step(url_to_scrape: str, username: str, password: str):
     max_wait_time_in_seconds = 5  # seconds
     try:
         WebDriverWait(driver, max_wait_time_in_seconds).until(
-            expected_conditions.presence_of_element_located((By.ID, "usercentrics-root"))
+            expected_conditions.presence_of_element_located(
+                (By.ID, "usercentrics-root")
+            )
         )
         driver.execute_script(
             """
@@ -43,7 +45,9 @@ def run_selenium_first_step(url_to_scrape: str, username: str, password: str):
         logging.warning(exception)
 
     WebDriverWait(driver, max_wait_time_in_seconds).until(
-        expected_conditions.invisibility_of_element_located((By.CSS_SELECTOR, ".modal-backdrop"))
+        expected_conditions.invisibility_of_element_located(
+            (By.CSS_SELECTOR, ".modal-backdrop")
+        )
     )
 
     WebDriverWait(driver, max_wait_time_in_seconds).until(
@@ -57,7 +61,9 @@ def run_selenium_first_step(url_to_scrape: str, username: str, password: str):
     driver.find_element(By.ID, "loginForm").submit()
 
     WebDriverWait(driver, max_wait_time_in_seconds).until(
-        expected_conditions.invisibility_of_element_located((By.CSS_SELECTOR, ".modal-backdrop"))
+        expected_conditions.invisibility_of_element_located(
+            (By.CSS_SELECTOR, ".modal-backdrop")
+        )
     )
 
     try:
@@ -77,7 +83,9 @@ def run_selenium_first_step(url_to_scrape: str, username: str, password: str):
         logging.exception(exception)
 
     WebDriverWait(driver, max_wait_time_in_seconds).until(
-        expected_conditions.invisibility_of_element_located((By.CSS_SELECTOR, ".modal-backdrop"))
+        expected_conditions.invisibility_of_element_located(
+            (By.CSS_SELECTOR, ".modal-backdrop")
+        )
     )
 
     try:
@@ -111,7 +119,9 @@ def run_selenium_first_step(url_to_scrape: str, username: str, password: str):
     )
 
     WebDriverWait(driver, max_wait_time_in_seconds).until(
-        expected_conditions.invisibility_of_element_located((By.CSS_SELECTOR, ".modal-backdrop"))
+        expected_conditions.invisibility_of_element_located(
+            (By.CSS_SELECTOR, ".modal-backdrop")
+        )
     )
 
     WebDriverWait(driver, max_wait_time_in_seconds).until(
