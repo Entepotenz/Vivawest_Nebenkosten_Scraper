@@ -1,12 +1,12 @@
-import time
 import logging
+import time
 
 from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support.ui import Select
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.ui import WebDriverWait
 
 
 def run_selenium_first_step(url_to_scrape: str, username: str, password: str):
@@ -27,38 +27,42 @@ def run_selenium_first_step(url_to_scrape: str, username: str, password: str):
 
     driver.get(url_to_scrape)
     time.sleep(5)  # TODO: remove this
-    maxWaitTimeInSeconds = 5  # seconds
+    max_wait_time_in_seconds = 5  # seconds
     try:
-        WebDriverWait(driver, maxWaitTimeInSeconds).until(
-            EC.presence_of_element_located((By.ID, "usercentrics-root"))
+        WebDriverWait(driver, max_wait_time_in_seconds).until(
+            expected_conditions.presence_of_element_located((By.ID, "usercentrics-root"))
         )
         driver.execute_script(
-            """return document.querySelector('div#usercentrics-root').shadowRoot.querySelector('button[data-testid="uc-accept-all-button"]')"""
+            """
+            return document.querySelector('div#usercentrics-root')\
+            .shadowRoot\
+            .querySelector('button[data-testid="uc-accept-all-button"]')
+            """
         ).click()
     except NoSuchElementException as exception:
         logging.warning(exception)
 
-    WebDriverWait(driver, maxWaitTimeInSeconds).until(
-        EC.invisibility_of_element_located((By.CSS_SELECTOR, ".modal-backdrop"))
+    WebDriverWait(driver, max_wait_time_in_seconds).until(
+        expected_conditions.invisibility_of_element_located((By.CSS_SELECTOR, ".modal-backdrop"))
     )
 
-    WebDriverWait(driver, maxWaitTimeInSeconds).until(
-        EC.visibility_of_element_located((By.ID, "login-username"))
+    WebDriverWait(driver, max_wait_time_in_seconds).until(
+        expected_conditions.visibility_of_element_located((By.ID, "login-username"))
     )
     driver.find_element(By.ID, "login-username").send_keys(username)
-    WebDriverWait(driver, maxWaitTimeInSeconds).until(
-        EC.visibility_of_element_located((By.ID, "login-password"))
+    WebDriverWait(driver, max_wait_time_in_seconds).until(
+        expected_conditions.visibility_of_element_located((By.ID, "login-password"))
     )
     driver.find_element(By.ID, "login-password").send_keys(password)
     driver.find_element(By.ID, "loginForm").submit()
 
-    WebDriverWait(driver, maxWaitTimeInSeconds).until(
-        EC.invisibility_of_element_located((By.CSS_SELECTOR, ".modal-backdrop"))
+    WebDriverWait(driver, max_wait_time_in_seconds).until(
+        expected_conditions.invisibility_of_element_located((By.CSS_SELECTOR, ".modal-backdrop"))
     )
 
     try:
-        WebDriverWait(driver, maxWaitTimeInSeconds).until(
-            EC.element_to_be_clickable(
+        WebDriverWait(driver, max_wait_time_in_seconds).until(
+            expected_conditions.element_to_be_clickable(
                 (
                     By.XPATH,
                     '//a[text()[contains(.,"Nebenkosten")]]',
@@ -72,13 +76,13 @@ def run_selenium_first_step(url_to_scrape: str, username: str, password: str):
     except Exception as exception:
         logging.exception(exception)
 
-    WebDriverWait(driver, maxWaitTimeInSeconds).until(
-        EC.invisibility_of_element_located((By.CSS_SELECTOR, ".modal-backdrop"))
+    WebDriverWait(driver, max_wait_time_in_seconds).until(
+        expected_conditions.invisibility_of_element_located((By.CSS_SELECTOR, ".modal-backdrop"))
     )
 
     try:
-        WebDriverWait(driver, maxWaitTimeInSeconds).until(
-            EC.element_to_be_clickable(
+        WebDriverWait(driver, max_wait_time_in_seconds).until(
+            expected_conditions.element_to_be_clickable(
                 (By.XPATH, '//*[text()[contains(.,"Verbräuche")]]')
             )
         )
@@ -86,13 +90,13 @@ def run_selenium_first_step(url_to_scrape: str, username: str, password: str):
     except Exception as exception:
         logging.exception(exception)
 
-    WebDriverWait(driver, maxWaitTimeInSeconds).until(
-        EC.element_to_be_clickable((By.ID, "logo"))
+    WebDriverWait(driver, max_wait_time_in_seconds).until(
+        expected_conditions.element_to_be_clickable((By.ID, "logo"))
     )
 
     try:
-        WebDriverWait(driver, maxWaitTimeInSeconds).until(
-            EC.element_to_be_clickable(
+        WebDriverWait(driver, max_wait_time_in_seconds).until(
+            expected_conditions.element_to_be_clickable(
                 (By.XPATH, '//*[text()[contains(.,"Zu den Details")]]')
             )
         )
@@ -102,16 +106,16 @@ def run_selenium_first_step(url_to_scrape: str, username: str, password: str):
     except Exception as exception:
         logging.exception(exception)
 
-    WebDriverWait(driver, maxWaitTimeInSeconds).until(
-        EC.element_to_be_clickable((By.ID, "logo"))
+    WebDriverWait(driver, max_wait_time_in_seconds).until(
+        expected_conditions.element_to_be_clickable((By.ID, "logo"))
     )
 
-    WebDriverWait(driver, maxWaitTimeInSeconds).until(
-        EC.invisibility_of_element_located((By.CSS_SELECTOR, ".modal-backdrop"))
+    WebDriverWait(driver, max_wait_time_in_seconds).until(
+        expected_conditions.invisibility_of_element_located((By.CSS_SELECTOR, ".modal-backdrop"))
     )
 
-    WebDriverWait(driver, maxWaitTimeInSeconds).until(
-        EC.visibility_of_element_located(
+    WebDriverWait(driver, max_wait_time_in_seconds).until(
+        expected_conditions.visibility_of_element_located(
             (By.XPATH, '//*[text()[contains(.,"Verbrauch der letzten")]]')
         )
     )
@@ -120,7 +124,7 @@ def run_selenium_first_step(url_to_scrape: str, username: str, password: str):
 
 
 def run_selenium_second_step(driver):
-    maxWaitTimeInSeconds = 5  # seconds
+    max_wait_time_in_seconds = 5  # seconds
     select = Select(
         driver.find_element(
             By.XPATH,
@@ -129,8 +133,8 @@ def run_selenium_second_step(driver):
     )
     select.select_by_visible_text("Kaltwasser")
 
-    WebDriverWait(driver, maxWaitTimeInSeconds).until(
-        EC.visibility_of_element_located(
+    WebDriverWait(driver, max_wait_time_in_seconds).until(
+        expected_conditions.visibility_of_element_located(
             (By.XPATH, '//*[text()[contains(.,"Verbrauch der letzten")]]')
         )
     )
@@ -138,14 +142,14 @@ def run_selenium_second_step(driver):
 
 
 def run_selenium_logout(driver):
-    maxWaitTimeInSeconds = 5  # seconds
-    WebDriverWait(driver, maxWaitTimeInSeconds).until(
-        EC.visibility_of_element_located((By.ID, "user-menu"))
+    max_wait_time_in_seconds = 5  # seconds
+    WebDriverWait(driver, max_wait_time_in_seconds).until(
+        expected_conditions.visibility_of_element_located((By.ID, "user-menu"))
     )
     driver.find_element(By.ID, "user-menu").click()
 
-    WebDriverWait(driver, maxWaitTimeInSeconds).until(
-        EC.element_to_be_clickable(
+    WebDriverWait(driver, max_wait_time_in_seconds).until(
+        expected_conditions.element_to_be_clickable(
             (
                 By.XPATH,
                 "//a[contains(@class, 'dropdown-item') and contains(@class, 'logout')]",
