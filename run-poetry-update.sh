@@ -1,5 +1,10 @@
 #!/bin/bash
 
+set -o errexit
+set -o pipefail
+set -o nounset
+if [[ "${TRACE-0}" == "1" ]]; then set -o xtrace; fi
+
 docker run --rm -it -v "$(pwd)/:/source" python:3-slim bash -c "\
     apt-get update; \
     pip install poetry; \

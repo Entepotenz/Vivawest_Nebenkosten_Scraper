@@ -1,5 +1,10 @@
 #!/bin/bash
 
+set -o errexit
+set -o pipefail
+set -o nounset
+if [[ "${TRACE-0}" == "1" ]]; then set -o xtrace; fi
+
 readonly SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 if ! command -v yapf &> /dev/null; then
