@@ -130,6 +130,24 @@ def run_selenium_first_step(url_to_scrape: str, username: str, password: str):
         )
     )
 
+    select = Select(
+        driver.find_element(
+            By.XPATH,
+            '//*[text()[contains(.,"Vergleich Vorjahr")]]/parent::select',
+        )
+    )
+    select.select_by_visible_text("Vergleich Liegenschaft")
+
+    WebDriverWait(driver, max_wait_time_in_seconds).until(
+        expected_conditions.element_to_be_clickable((By.ID, "logo"))
+    )
+
+    WebDriverWait(driver, max_wait_time_in_seconds).until(
+        expected_conditions.invisibility_of_element_located(
+            (By.CSS_SELECTOR, ".modal-backdrop")
+        )
+    )
+
     return driver
 
 
@@ -142,6 +160,14 @@ def run_selenium_second_step(driver):
         )
     )
     select.select_by_visible_text("Kaltwasser")
+
+    select = Select(
+        driver.find_element(
+            By.XPATH,
+            '//*[text()[contains(.,"Vergleich Vorjahr")]]/parent::select',
+        )
+    )
+    select.select_by_visible_text("Vergleich Liegenschaft")
 
     WebDriverWait(driver, max_wait_time_in_seconds).until(
         expected_conditions.visibility_of_element_located(
