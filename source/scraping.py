@@ -23,12 +23,16 @@ def scrape_site(url_to_scrape: str, username: str, password: str) -> str:
     driver = selenium_code.run_selenium_first_step(url_to_scrape, username, password)
     src = driver.page_source
     result_html += data_extraction_section_creator.extract_heizenergie(src)
-    result_html += data_extraction_section_creator.extract_heizenergie_liegenschaft_kwh(src)
+    result_html += data_extraction_section_creator.extract_heizenergie_liegenschaft_kwh(
+        src
+    )
 
     driver = selenium_code.run_selenium_second_step(driver)
     src = driver.page_source
     result_html += data_extraction_section_creator.extract_kaltwasser(src)
-    result_html += data_extraction_section_creator.extract_kaltwasser_liegenschaft_m3(src)
+    result_html += data_extraction_section_creator.extract_kaltwasser_liegenschaft_m3(
+        src
+    )
 
     result_html += "</body>"
     result_html += "</html>"
