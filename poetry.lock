@@ -427,6 +427,24 @@ files = [
 ]
 
 [[package]]
+name = "pyhamcrest"
+version = "2.0.4"
+description = "Hamcrest framework for matcher objects"
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "pyhamcrest-2.0.4-py3-none-any.whl", hash = "sha256:60a41d4783b9d56c9ec8586635d2301db5072b3ea8a51c32dd03c408ae2b0f79"},
+    {file = "pyhamcrest-2.0.4.tar.gz", hash = "sha256:b5d9ce6b977696286cf232ce2adf8969b4d0b045975b0936ac9005e84e67e9c1"},
+]
+
+[package.extras]
+dev = ["black", "flake8", "pyhamcrest[docs,tests]", "pytest-mypy", "towncrier", "tox", "tox-asdf", "twine"]
+docs = ["alabaster (>=0.7,<1.0)", "sphinx (>=4.0,<5.0)"]
+tests = ["coverage[toml]", "dataclasses", "mypy (!=0.940)", "pytest (>=5.0)", "pytest-mypy-plugins", "pytest-sugar", "pytest-xdist", "types-dataclasses", "types-mock"]
+tests-numpy = ["numpy", "pyhamcrest[tests]"]
+
+[[package]]
 name = "pysocks"
 version = "1.7.1"
 description = "A Python SOCKS client module. See https://github.com/Anorov/PySocks for more information."
@@ -684,4 +702,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "cf5d4c577c11de3a315f5b79f89c30b052fb55a6ecb7b36eb18d8466ea01bbd8"
+content-hash = "8501cbe9fda8ae2b378d97477ac56727f7473d255074ac66da8f90033e20d0ac"

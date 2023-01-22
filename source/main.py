@@ -1,9 +1,9 @@
-import logging
-import os
 import json
+import os
 import sys
 
 import scraping
+import source.data_extraction
 
 URL = "https://kundenportal.vivawest.de/"
 
@@ -16,7 +16,8 @@ def main(argv) -> int:
     password = os.environ.get("PASSWORD", None)
 
     if len(argv) > 0 and argv[0] == "json":
-        result = scraping.scrape_site_json(URL, username, password)
+        result = scraping.scrape_site(URL, username, password)
+        result = source.data_extraction.scrape_site_json(result)
         result = json.dumps(result, sort_keys=True, indent=4, ensure_ascii=False)
     else:
         result = scraping.scrape_site(URL, username, password)
