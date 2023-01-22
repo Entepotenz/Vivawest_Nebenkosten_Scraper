@@ -5,13 +5,13 @@ description = ""
 authors = ["floriankretschmer <floriankretschmer@posteo.de>"]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.9"
 selenium = "^4.1.2"
 beautifulsoup4 = "^4.10.0"
 python-dateutil = "^2.8.2"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
+pytest = "^7.2.1"
 gunicorn = "^20.1.0"
 Flask = "^2.0.3"
 
