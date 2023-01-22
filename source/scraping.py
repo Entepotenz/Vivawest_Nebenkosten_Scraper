@@ -11,7 +11,7 @@ def scrape_site(url_to_scrape: str, username: str, password: str) -> str:
     src = driver.page_source
 
     filepath_of_test_input = os.path.join(
-        os.getcwd(), "resources", "html_head_style.html"
+        os.path.dirname(os.path.abspath(__file__)), "resources", "html_head_style.html"
     )
     html_head_style = Path(filepath_of_test_input).read_text()
 

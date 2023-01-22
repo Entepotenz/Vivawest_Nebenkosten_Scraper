@@ -1,6 +1,8 @@
 import os
 
 from flask import Flask
+
+import data_extraction
 import scraping
 
 URL = "https://kundenportal.vivawest.de/"
@@ -23,7 +25,8 @@ def get_as_html():
 def get_as_json():
     username = os.environ.get("USERNAME", None)
     password = os.environ.get("PASSWORD", None)
-    result = scraping.scrape_site_json(URL, username, password)
+    result = scraping.scrape_site(URL, username, password)
+    result = data_extraction.scrape_site_json(result)
 
     return result
 

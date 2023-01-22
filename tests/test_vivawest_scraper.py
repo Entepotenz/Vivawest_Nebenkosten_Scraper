@@ -7,7 +7,7 @@ from source.data_extraction import scrape_site_json
 
 
 def test_scrape_site_json():
-    filepath_of_test_input = os.path.join(os.getcwd(), 'resources', 'scrape_site_result.html')
+    filepath_of_test_input = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'resources', 'scrape_site_result.html')
     input = Path(filepath_of_test_input).read_text()
 
     expected = {'Heizenergie': {'Raum / Zähler-Nr.': 'Abstellkammer (2054578)',
