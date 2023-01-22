@@ -1,3 +1,6 @@
+import os
+from pathlib import Path
+
 from bs4 import BeautifulSoup
 
 import selenium_code
@@ -7,35 +10,13 @@ def scrape_site(url_to_scrape: str, username: str, password: str) -> str:
     driver = selenium_code.run_selenium_first_step(url_to_scrape, username, password)
     src = driver.page_source
 
-    result_html = """\
+    filepath_of_test_input = os.path.join(os.getcwd(), 'resources', 'html_head_style.html')
+    html_head_style = Path(filepath_of_test_input).read_text()
+
+    result_html = f"""\
         <!DOCTYPE html>
         <html>
-            <head>
-                <meta charset="utf-8">
-                <style type="text/css">
-                    body{
-                        margin:40px
-                        auto;max-width:650px;line-height:1.6;font-size:18px;color:#444;padding:0 10px
-                    }
-                    h1,h2,h3{
-                        line-height:1.2
-                    }
-                    table {
-                        border-collapse: collapse;
-                        width: 100%;
-                    }
-
-                    td, th {
-                        border: 1px solid #dddddd;
-                        text-align: left;
-                        padding: 8px;
-                    }
-
-                    tr:nth-child(even) {
-                        background-color: #dddddd;
-                    }
-                </style>
-            </head>
+            {html_head_style}
         <body>
         """
     result_html += "<section>"
