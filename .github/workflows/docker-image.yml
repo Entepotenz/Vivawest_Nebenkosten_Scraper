@@ -27,8 +27,8 @@ concurrency:
 env:
   REGISTRY_GITHUB: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  BUILD_PLATFORMS: "linux/amd64,linux/arm64,linux/arm/v6,linux/arm/v7"
-  BASE_IMAGE: "library/python:3-slim"
+  BUILD_PLATFORMS: "linux/amd64,linux/arm64,linux/arm/v7"
+  BASE_IMAGE: "library/alpine:latest"
 
 jobs:
   check-pre-condition:
