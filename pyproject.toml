@@ -2,7 +2,7 @@
 name = "Vivawest_scraper"
 version = "0.1.0"
 description = ""
-authors = ["floriankretschmer <floriankretschmer@posteo.de>"]
+authors = ["floriankretschmer <entepotenz@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
