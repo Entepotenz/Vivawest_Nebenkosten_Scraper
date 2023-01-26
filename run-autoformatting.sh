@@ -22,5 +22,5 @@ if ! command -v black &> /dev/null; then
         pip install black; \
         black /source"
 else
-    black "${SCRIPT_DIR}/source"
+    black "${SCRIPT_DIR}/"
 fi
