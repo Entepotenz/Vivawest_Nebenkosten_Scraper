@@ -16,6 +16,7 @@ RUN apk add --update-cache \
     python3-dev \
     py3-pip \
     build-base \
+    musl-locales \
   && rm -rf /var/cache/apk/*
 
 COPY requirements.txt /requirements.txt
@@ -39,6 +40,7 @@ RUN apk add --update-cache \
     python3 \
     chromium \
     chromium-chromedriver \
+    musl-locales \
   && rm -rf /var/cache/apk/*
 
 COPY --from=builder /dependencies /usr/local

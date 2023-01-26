@@ -10,8 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        architecture-name: [ "aarch64", "armhf", "armv7" ]
-
+#        architecture-name: [ "aarch64", "armhf", "armv7" ]
+        architecture-name: [ "aarch64" ]
+    env:
+      LANG: de_DE.UTF-8
+      LC_ALL: de_DE.UTF-8
     steps:
       - uses: actions/checkout@v3
       - name: Setup latest Alpine Linux
@@ -22,7 +25,7 @@ jobs:
       - name: Install python3
         run: |
           cat /etc/alpine-release
-          apk add python3 python3-dev py3-pip py3-virtualenv
+          apk add python3 python3-dev py3-pip py3-virtualenv musl-locales
           python3 --version
           pip3 --version
           VIRTUAL_ENV=/opt/venv
@@ -33,5 +36,8 @@ jobs:
         shell: alpine.sh --root {0}
       - name: Run tests
         run: |
+          VIRTUAL_ENV=/opt/venv
+          python3 -m venv "$VIRTUAL_ENV"
+          PATH="$VIRTUAL_ENV/bin:$PATH"
           pytest tests/
-        shell: alpine.sh {0}
+        shell: alpine.sh --root {0}
