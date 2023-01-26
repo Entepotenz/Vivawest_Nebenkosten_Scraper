@@ -1,0 +1,37 @@
+---
+
+name: Run all python tests
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        architecture-name: [ "aarch64", "armhf", "armv7" ]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup latest Alpine Linux
+        uses: jirutka/setup-alpine@v1
+        with:
+          arch: ${{ matrix.architecture-name }}
+          branch: latest-stable
+      - name: Install python3
+        run: |
+          cat /etc/alpine-release
+          apk add python3 python3-dev py3-pip py3-virtualenv
+          python3 --version
+          pip3 --version
+          VIRTUAL_ENV=/opt/venv
+          python3 -m venv "$VIRTUAL_ENV"
+          PATH="$VIRTUAL_ENV/bin:$PATH"
+          pip install --no-cache-dir --upgrade pip
+          pip install -r requirements-dev.txt
+        shell: alpine.sh --root {0}
+      - name: Run tests
+        run: |
+          pytest tests/
+        shell: alpine.sh {0}
