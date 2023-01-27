@@ -1,4 +1,6 @@
 import locale
+import re
+from pathlib import Path
 
 import dateutil.parser
 from bs4 import BeautifulSoup
@@ -48,7 +50,7 @@ def scrape_site_json(html_table: str) -> dict:
             value = data.pop(key)
             if is_date(key):
                 if is_float(value):
-                    value = locale.atof(value)
+                    value = convert_to_float(value)
                 elif is_int(value):
                     value = int(value)
 
@@ -71,7 +73,7 @@ class GermanLocaleParserInfo(dateutil.parser.parserinfo):
         ("Jun", "Juni", "June"),
         ("Jul", "Juli", "July"),
         ("Aug", "August"),
-        ("Sep", "September"),
+        ("Sep", "September", "Sept"),
         ("Okt", "Oktober", "October", "Oct"),
         ("Nov", "November"),
         ("Dez", "Dezember", "Dec", "December"),
@@ -89,11 +91,21 @@ def is_date(input: str) -> bool:
 def is_float(input: str) -> bool:
     locale.setlocale(locale.LC_ALL, "de_DE.UTF-8")
     try:
+        # locale.atof is not working correctly on alpine "," "." conversion -> if detected fix it manually
+        if is_running_on_alpine() and re.search(r"^\d+,\d+$", input):
+            input = input.replace(",", ".")
         _ = locale.atof(input)
     except (TypeError, ValueError):
         return False
     else:
         return True
+
+
+def convert_to_float(input: str) -> float:
+    locale.setlocale(locale.LC_ALL, "de_DE.UTF-8")
+    if is_running_on_alpine() and re.search(r"^\d+,\d+$", input):
+        input = input.replace(",", ".")
+    return locale.atof(input)
 
 
 def is_int(input: str) -> bool:
@@ -105,3 +117,12 @@ def is_int(input: str) -> bool:
         return False
     else:
         return a == b
+
+
+def is_running_on_alpine() -> bool:
+    alpine_release_file = Path("/etc/alpine-release")
+    if alpine_release_file.exists():
+        if alpine_release_file.stat().st_size != 0:
+            return True
+
+    return False

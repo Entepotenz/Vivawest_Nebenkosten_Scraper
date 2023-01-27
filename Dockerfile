@@ -16,7 +16,8 @@ RUN apk add --update-cache \
     python3-dev \
     py3-pip \
     build-base \
-    musl-locales \
+#    musl-locales \
+#    musl-locales-lang \
   && rm -rf /var/cache/apk/*
 
 COPY requirements.txt /requirements.txt
@@ -35,12 +36,14 @@ ENV PYTHONUNBUFFERED=1
 
 ENV LANG de_DE.UTF-8
 ENV LC_ALL de_DE.UTF-8
+#ENV MUSL_LOCPATH="/usr/share/i18n/locales/musl"
 
 RUN apk add --update-cache \
     python3 \
     chromium \
     chromium-chromedriver \
-    musl-locales \
+#    musl-locales \
+#    musl-locales-lang \
   && rm -rf /var/cache/apk/*
 
 COPY --from=builder /dependencies /usr/local
@@ -52,3 +55,4 @@ WORKDIR /app
 
 CMD ["sh", "-c", "source /app/pass.sh; python source/main.py json"]
 # CMD ["sh", "-c", "source /app/pass.sh; python source/main.py"]
+#CMD ["sh", "-c", "source /app/pass.sh; python -m pytest source/tests/"]
