@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-#        architecture-name: [ "aarch64", "armhf", "armv7" ]
-        architecture-name: [ "aarch64" ]
+        architecture-name: [ "aarch64", "armhf", "armv7" ]
+#        architecture-name: [ "aarch64" ]
     env:
       LANG: de_DE.UTF-8
       LC_ALL: de_DE.UTF-8
