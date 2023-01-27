@@ -47,19 +47,10 @@ jobs:
         uses: Entepotenz/change-string-case-action-min-dependencies@v1
         with:
           string: ${{ env.IMAGE_NAME }}
-#
-#      - name: Docker Image Update Checker
-#        id: baseupdatecheck
-#        uses: giggio/docker-image-update-checker@v2
-#        with:
-#          base-image: ${{ env.BASE_IMAGE }}
-#          image: ${{ env.REGISTRY_GITHUB }}/${{ steps.string_lower_case.outputs.lowercase }}:latest
-#          verbose: true # optional
 
       - name: determine if we should build
         id: set_output
         env:
-          IMAGE_NEEDS_UPDATE: ${{ steps.baseupdatecheck.outputs.needs-updating }}
           GIT_EVENT_NAME: ${{ github.event_name }}
         run: |
           if [ "$IMAGE_NEEDS_UPDATE" = "true" ] || [ "$GIT_EVENT_NAME" = "push" ] || [ "$GIT_EVENT_NAME" = "pull_request" ]; then

@@ -4,8 +4,8 @@ from pathlib import Path
 
 from source.data_extraction import scrape_site_json
 from source.data_extraction_section_creator import (
-    extract_heizenergie_liegenschaft_kwh,
     extract_heizenergie,
+    extract_heizenergie_liegenschaft_kwh,
     extract_kaltwasser,
     extract_kaltwasser_liegenschaft_m3,
 )

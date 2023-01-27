@@ -28,8 +28,8 @@ def extract_data_from_table_generic(html_source: str, header_name: str) -> str:
 
 
 def extract_heizenergie_generic(data: dict, tag: str, section_header_name: str) -> str:
-    extracted_data = filter(lambda x: (tag in x), data)
-    extracted_data = map(
+    extracted_data_filtered = filter(lambda x: (tag in x), data)
+    extracted_data_mapped = map(
         lambda x: {
             "monat": x.get("monat"),
             "jahr": x.get("jahr"),
@@ -38,9 +38,9 @@ def extract_heizenergie_generic(data: dict, tag: str, section_header_name: str) 
             ).strftime("%b %y"),
             "table_value": x.get(tag),
         },
-        extracted_data,
+        extracted_data_filtered,
     )
-    extracted_data = list(extracted_data)
+    extracted_data = list(extracted_data_mapped)
 
     result_html = "<section>"
     result_html += f"<h1>{section_header_name}</h1>"

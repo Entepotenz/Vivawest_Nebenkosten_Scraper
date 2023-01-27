@@ -5,8 +5,9 @@ set -o pipefail
 set -o nounset
 if [[ "${TRACE-0}" == "1" ]]; then set -o xtrace; fi
 
-readonly SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
+# shellcheck disable=SC1091
 source "$SCRIPT_DIR/pass.sh"
 
 docker run --rm -it -v "$SCRIPT_DIR:/app" -v "/app/.venv" -p 127.0.0.1:80:8080 python:3-slim bash -c "\
