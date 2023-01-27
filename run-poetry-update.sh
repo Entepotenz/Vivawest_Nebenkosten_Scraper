@@ -11,4 +11,5 @@ docker run --rm -it -v "$(pwd)/:/source" -v "/source/.venv" python:3-slim bash -
     cd /source; \
     pip install --no-cache-dir --upgrade pip; \
     poetry update; \
-    poetry export -f requirements.txt --without dev --output /source/requirements.txt"
+    poetry export -f requirements.txt --without dev --output /source/requirements.txt; \
+    poetry export -f requirements.txt --with dev --output /source/requirements-dev.txt;"

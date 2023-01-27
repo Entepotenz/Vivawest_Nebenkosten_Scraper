@@ -2,12 +2,10 @@ import os
 import unittest
 from pathlib import Path
 
-from hamcrest import assert_that, equal_to
-
 from source.data_extraction import scrape_site_json
 from source.data_extraction_section_creator import (
-    extract_heizenergie_liegenschaft_kwh,
     extract_heizenergie,
+    extract_heizenergie_liegenschaft_kwh,
     extract_kaltwasser,
     extract_kaltwasser_liegenschaft_m3,
 )
@@ -59,7 +57,7 @@ class MyTestCase(unittest.TestCase):
             },
         }
 
-        assert_that(result, equal_to(expected))
+        self.assertDictEqual(result, expected)
 
     def test_extract_heizenergie_eigen(self):
         input = Path(self._filepath_of_test_input_heizenergie).read_text()
@@ -84,7 +82,7 @@ class MyTestCase(unittest.TestCase):
             }
         }
 
-        assert_that(result, equal_to(expected))
+        self.assertDictEqual(result, expected)
 
     def test_extract_kaltwasser_liegenschaft(self):
         input = Path(self._filepath_of_test_input_kaltwasser).read_text()
@@ -120,7 +118,7 @@ class MyTestCase(unittest.TestCase):
             },
         }
 
-        assert_that(result, equal_to(expected))
+        self.assertDictEqual(result, expected)
 
     def test_extract_kaltwasser_eigen(self):
         input = Path(self._filepath_of_test_input_kaltwasser).read_text()
@@ -145,7 +143,7 @@ class MyTestCase(unittest.TestCase):
             }
         }
 
-        assert_that(result, equal_to(expected))
+        self.assertDictEqual(result, expected)
 
 
 if __name__ == "__main__":
