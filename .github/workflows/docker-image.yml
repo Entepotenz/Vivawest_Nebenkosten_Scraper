@@ -39,9 +39,6 @@ jobs:
     outputs:
       condition_met: ${{ steps.set_output.outputs.run_jobs }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
       - id: string_lower_case
         uses: Entepotenz/change-string-case-action-min-dependencies@v1
         with:
