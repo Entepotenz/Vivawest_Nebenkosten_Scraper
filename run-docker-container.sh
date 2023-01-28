@@ -34,4 +34,4 @@ if [[ "$(docker images -q "$DOCKER_IMAGE_NAME" 2> /dev/null)" == "" ]]; then
   docker build -t "$DOCKER_IMAGE_NAME" --file "$PATH_TO_DOCKERFILE" .
 fi
 
-docker run --rm -v "$PATH_TO_PASS_SH:/app/pass.sh" -v "$PATH_TO_SOURCE_FOLDER:/app/source/" "$DOCKER_IMAGE_NAME"
+docker run --rm -v "$PATH_TO_PASS_SH:/app/pass.sh:ro" -v "$PATH_TO_SOURCE_FOLDER:/app/source/" "$DOCKER_IMAGE_NAME"
