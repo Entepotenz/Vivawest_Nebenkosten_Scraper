@@ -5,6 +5,11 @@ name: Run all python tests
 on:
   pull_request:
     branches: [master, main]
+  push:
+    branches:
+      - "**"
+    tags:
+      - "v*.*.*"
 
 jobs:
   build:
