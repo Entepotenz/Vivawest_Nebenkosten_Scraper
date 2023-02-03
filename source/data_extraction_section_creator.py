@@ -90,8 +90,7 @@ def extract_kaltwasser_liegenschaft_m3(html_source: str) -> str:
     data = extract_json_from_canvas(html_source)
 
     result_html = extract_heizenergie_generic(
-        data,
-        "verbrauchswert_liegenschaft_geraete",
+        data,"verbrauchswert_liegenschaft_geraete",
         "verbrauchswert_liegenschaft_geraete_wasser",
     )
     result_html += extract_heizenergie_generic(
@@ -102,6 +101,6 @@ def extract_kaltwasser_liegenschaft_m3(html_source: str) -> str:
 
 
 def extract_json_from_canvas(html_source: str) -> dict:
-    parser = BeautifulSoup(html_source, "html.parser")
+    parser = BeautifulSoup(html_source,      "html.parser")
     canvas = parser.find("canvas", {"id": "bar-chart"})
-    return json.loads(canvas.attrs.get("data-response"))
+    return json.loads(canvas.attrs.get(   "data-response"  ))
