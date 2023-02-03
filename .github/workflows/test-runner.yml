@@ -5,6 +5,17 @@ name: Run all python tests
 on:
   pull_request:
     branches: [master, main]
+  push:
+    branches:
+      - "**"
+    tags:
+      - "v*.*.*"
+
+# cancel a currently running workflow from the same PR, branch or tag when a new workflow is triggered
+# source: https://stackoverflow.com/questions/66335225/how-to-cancel-previous-runs-in-the-pr-when-you-push-new-commitsupdate-the-curre/67939898#67939898
+concurrency:
+  group: ${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
