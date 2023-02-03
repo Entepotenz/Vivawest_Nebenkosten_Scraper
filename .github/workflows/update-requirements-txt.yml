@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions: write-all
     strategy:
       matrix:
         python-version: [ "3" ]
@@ -27,17 +28,7 @@ jobs:
           python -m pip install poetry
           poetry export -f requirements.txt --without dev --output requirements.txt
           poetry export -f requirements.txt --with dev --output requirements-dev.txt
-      - name: Commit and push changes
-        run: |
-          if [[ $(git status --porcelain) ]]; then
-            git diff
-          
-            git config --global user.name "dependabot[bot]"
-            git config --global user.email "49699333+dependabot[bot]@users.noreply.github.com"
-          
-            git add -A
-            git commit -m "update requirements.txt and requirements-dev.txt"
-            git push
-          else
-            echo "no changes to commit"
-          fi
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          file_pattern: 'requirements*.txt'
+          commit_message: update requirements.txt and requirements-dev.txt
