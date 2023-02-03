@@ -28,7 +28,7 @@ jobs:
           python -m pip install poetry
           poetry export -f requirements.txt --without dev --output requirements.txt
           poetry export -f requirements.txt --with dev --output requirements-dev.txt
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      - uses: stefanzweifel/git-auto-commit-action@3ea6ae190baf489ba007f7c92608f33ce20ef04a # v4.16.0
         with:
           file_pattern: 'requirements*.txt'
           commit_message: update requirements.txt and requirements-dev.txt
