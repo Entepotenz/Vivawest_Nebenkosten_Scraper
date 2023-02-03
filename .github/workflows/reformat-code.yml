@@ -1,6 +1,6 @@
 ---
 
-name: update requirements.txt and requirements-dev.txt
+name: auto reformat python code
 
 on:
   pull_request:
@@ -9,7 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions: write-all
+    permissions:
+      contents: write
     strategy:
       matrix:
         python-version: [ "3" ]
@@ -20,22 +21,22 @@ jobs:
         uses: tj-actions/changed-files@db3ea27a0cf07135175be5efe7aaf84df6e0e6f0 # v35.5.0
         with:
           files: |
-            poetry.lock
-            pyproject.toml
+            **/*.py
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         if: steps.changed-files-specific.outputs.any_changed == 'true'
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
+      - name: reformat code
         if: steps.changed-files-specific.outputs.any_changed == 'true'
         run: |
           python -m pip install --upgrade pip
           python -m pip install poetry
-          poetry export -f requirements.txt --without dev --output requirements.txt
-          poetry export -f requirements.txt --with dev --output requirements-dev.txt
+          poetry install
+          poetry run yapf --style google -ir ./source
+          poetry run black ./source
       - uses: stefanzweifel/git-auto-commit-action@3ea6ae190baf489ba007f7c92608f33ce20ef04a # v4.16.0
         if: steps.changed-files-specific.outputs.any_changed == 'true'
         with:
-          file_pattern: 'requirements*.txt'
-          commit_message: update requirements.txt and requirements-dev.txt
+          file_pattern: '*.py'
+          commit_message: apply autoformatting
