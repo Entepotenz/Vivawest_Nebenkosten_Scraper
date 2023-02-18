@@ -1,3 +1,6 @@
- 0 0 28 * * /home/pi/Vivawest_scraper/run-docker-container-ghcr.sh | jq > /home/pi/smarthome-muenster/webserver-vivawest_volume/data.json
- 0 0 * * MON /home/pi/Vivawest_scraper/run-docker-container-ghcr.sh | jq > /home/pi/smarthome-muenster/webserver-vivawest_volume/data.json
- 0 23 * * * if ! [ -s "/home/pi/smarthome-muenster/webserver-vivawest_volume/data.json" ]; then /home/pi/Vivawest_scraper/run-docker-container-ghcr.sh | jq > /home/pi/smarthome-muenster/webserver-vivawest_volume/data.json; fi;
+# At 00:00 on day-of-month 28
+0 0 28 * * /home/pi/Vivawest_scraper/run-docker-container-ghcr.sh | jq > /home/pi/smarthome-muenster/webserver-vivawest_volume/data.json
+# At 00:00 on Monday
+0 0 * * MON /home/pi/Vivawest_scraper/run-docker-container-ghcr.sh | jq > /home/pi/smarthome-muenster/webserver-vivawest_volume/data.json
+# At 23:00
+0 23 * * * if ! [ -s "/home/pi/smarthome-muenster/webserver-vivawest_volume/data.json" ]; then /home/pi/Vivawest_scraper/run-docker-container-ghcr.sh | jq > /home/pi/smarthome-muenster/webserver-vivawest_volume/data.json; fi;
