@@ -7,3 +7,7 @@ create a `pass.sh` in the root folder like this:
 export USERNAME="USERNAME"
 export PASSWORD="SECRET"
 ```
+
+# GitHub Next Code Visualization
+
+![Visualization of the codebase](./diagram.svg)
