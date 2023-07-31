@@ -1,5 +1,8 @@
 # Vivawest_scraper
 
+**Warning**: the code has very bad ugly quality!
+
+
 create a `pass.sh` in the root folder like this:
 ```shell
 #!/bin/bash
