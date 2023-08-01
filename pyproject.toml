@@ -6,7 +6,7 @@ authors = ["floriankretschmer <entepotenz@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-selenium = "^4.9.1"
+selenium = "4.9.1"
 beautifulsoup4 = "^4.12.2"
 python-dateutil = "^2.8.2"
 
