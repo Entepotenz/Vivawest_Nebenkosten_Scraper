@@ -216,9 +216,9 @@ pytest==7.4.0 ; python_version >= "3.9" and python_version < "4.0" \
 python-dateutil==2.8.2 ; python_version >= "3.9" and python_version < "4.0" \
     --hash=sha256:0123cacc1627ae19ddf3c27a5de5bd67ee4586fbdd6440d9748f8abb483d3e86 \
     --hash=sha256:961d03dc3453ebbc59dbdea9e4e11c5651520a876d0f4db161e8674aae935da9
-selenium==4.9.1 ; python_version >= "3.9" and python_version < "4.0" \
-    --hash=sha256:3444f4376321530c36ce8355b6b357d8cf4a7d588ce5cf772183465930bbed0e \
-    --hash=sha256:82aedaa85d55bc861f4c89ff9609e82f6c958e2e1e3da3ffcc36703f21d3ee16
+selenium==4.10.0 ; python_version >= "3.9" and python_version < "4.0" \
+    --hash=sha256:40241b9d872f58959e9b34e258488bf11844cd86142fd68182bd41db9991fc5c \
+    --hash=sha256:871bf800c4934f745b909c8dfc7d15c65cf45bd2e943abd54451c810ada395e3
 setuptools==68.0.0 ; python_version >= "3.9" and python_version < "4.0" \
     --hash=sha256:11e52c67415a381d10d6b462ced9cfb97066179f0e871399e006c4ab101fc85f \
     --hash=sha256:baf1fdb41c6da4cd2eae722e135500da913332ab3f2f5c7d33af9b492acb5235
