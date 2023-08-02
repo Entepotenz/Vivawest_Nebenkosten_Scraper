@@ -39,7 +39,6 @@ ENV LC_ALL de_DE.UTF-8
 
 RUN apk add --no-cache \
     python3 \
-    chromium \
     chromium-chromedriver \
 #    musl-locales \
 #    musl-locales-lang \
