@@ -16,7 +16,7 @@ gunicorn = "^20.1.0"
 Flask = "^2.3.2"
 pyhamcrest = "^2.0.4"
 black = "^23.7.0"
-yapf = "^0.33.0"
+yapf = "^0.40.1"
 toml = "^0.10.2"
 
 [build-system]
