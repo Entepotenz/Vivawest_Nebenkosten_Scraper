@@ -110,16 +110,16 @@ exceptiongroup==1.1.2 ; python_version >= "3.9" and python_version < "4.0" \
 flask==2.3.2 ; python_version >= "3.9" and python_version < "4.0" \
     --hash=sha256:77fd4e1249d8c9923de34907236b747ced06e5467ecac1a7bb7115ae0e9670b0 \
     --hash=sha256:8c2f9abd47a9e8df7f0c3f091ce9497d011dc3b31effcf4c85a6e2b50f4114ef
-gunicorn==20.1.0 ; python_version >= "3.9" and python_version < "4.0" \
-    --hash=sha256:9dcc4547dbb1cb284accfb15ab5667a0e5d1881cc443e0677b4882a4067a807e \
-    --hash=sha256:e0a968b5ba15f8a328fdfd7ab1fcb5af4470c28aaf7e55df02a99bc13138e6e8
+gunicorn==21.2.0 ; python_version >= "3.9" and python_version < "4.0" \
+    --hash=sha256:3213aa5e8c24949e792bcacfc176fef362e7aac80b76c56f6b5122bf350722f0 \
+    --hash=sha256:88ec8bff1d634f98e61b9f65bc4bf3cd918a90806c6f5c48bc5603849ec81033
 h11==0.14.0 ; python_version >= "3.9" and python_version < "4.0" \
     --hash=sha256:8f19fbbe99e72420ff35c00b27a34cb9937e902a8b810e2c88300c6f0a3b699d \
     --hash=sha256:e3fe4ac4b851c468cc8363d500db52c2ead036020723024a109d37346efaa761
 idna==3.4 ; python_version >= "3.9" and python_version < "4.0" \
     --hash=sha256:814f528e8dead7d329833b91c5faa87d60bf71824cd12a7530b5526063d02cb4 \
     --hash=sha256:90b77e79eaa3eba6de819a0c442c0b4ceefc341a7a2ab77d7562bf49f425c5c2
-importlib-metadata==6.8.0 ; python_version >= "3.9" and python_version < "3.10" \
+importlib-metadata==6.8.0 ; python_version >= "3.9" and python_version < "4.0" \
     --hash=sha256:3ebb78df84a805d7698245025b975d9d67053cd94c79245ba4b3eb694abe68bb \
     --hash=sha256:dbace7892d8c0c4ac1ad096662232f831d4e64f4c4545bd53016a3e9d4654743
 iniconfig==2.0.0 ; python_version >= "3.9" and python_version < "4.0" \
@@ -219,9 +219,6 @@ python-dateutil==2.8.2 ; python_version >= "3.9" and python_version < "4.0" \
 selenium==4.10.0 ; python_version >= "3.9" and python_version < "4.0" \
     --hash=sha256:40241b9d872f58959e9b34e258488bf11844cd86142fd68182bd41db9991fc5c \
     --hash=sha256:871bf800c4934f745b909c8dfc7d15c65cf45bd2e943abd54451c810ada395e3
-setuptools==68.0.0 ; python_version >= "3.9" and python_version < "4.0" \
-    --hash=sha256:11e52c67415a381d10d6b462ced9cfb97066179f0e871399e006c4ab101fc85f \
-    --hash=sha256:baf1fdb41c6da4cd2eae722e135500da913332ab3f2f5c7d33af9b492acb5235
 six==1.16.0 ; python_version >= "3.9" and python_version < "4.0" \
     --hash=sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926 \
     --hash=sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254
@@ -258,9 +255,9 @@ werkzeug==2.3.6 ; python_version >= "3.9" and python_version < "4.0" \
 wsproto==1.2.0 ; python_version >= "3.9" and python_version < "4.0" \
     --hash=sha256:ad565f26ecb92588a3e43bc3d96164de84cd9902482b130d0ddbaa9664a85065 \
     --hash=sha256:b9acddd652b585d75b20477888c56642fdade28bdfd3579aa24a4d2c037dd736
-yapf==0.33.0 ; python_version >= "3.9" and python_version < "4.0" \
-    --hash=sha256:4c2b59bd5ffe46f3a7da48df87596877189148226ce267c16e8b44240e51578d \
-    --hash=sha256:da62bdfea3df3673553351e6246abed26d9fe6780e548a5af9e70f6d2b4f5b9a
-zipp==3.16.2 ; python_version >= "3.9" and python_version < "3.10" \
+yapf==0.40.1 ; python_version >= "3.9" and python_version < "4.0" \
+    --hash=sha256:958587eb5c8ec6c860119a9c25d02addf30a44f75aa152a4220d30e56a98037c \
+    --hash=sha256:b8bfc1f280949153e795181768ca14ef43d7312629a06c43e7abd279323af313
+zipp==3.16.2 ; python_version >= "3.9" and python_version < "4.0" \
     --hash=sha256:679e51dd4403591b2d6838a48de3d283f3d188412a9782faadf845f298736ba0 \
     --hash=sha256:ebc15946aa78bd63458992fc81ec3b6f7b1e92d51c35e6de1c3804e73b799147
