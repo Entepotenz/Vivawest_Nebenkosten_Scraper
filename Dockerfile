@@ -3,9 +3,6 @@ FROM docker.io/library/alpine:latest as builder
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# rustc compiler would be needed on ARM type devices but theres an issue with some deps not building..
-ARG CRYPTOGRAPHY_DONT_BUILD_RUST=1
-
 ENV PATH /usr/local/bin:$PATH
 
 ENV LANG de_DE.UTF-8
