@@ -29,7 +29,7 @@ def get_as_json():
     return result
 
 
-def reformat_data_for_month(data: list) -> dict:
+def reformat_data_for_month(data: list) -> dict[str, dict]:
     result = {}
 
     for item in data:
