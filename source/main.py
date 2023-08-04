@@ -1,28 +1,18 @@
 import json
-import os
 import sys
 
-import data_extraction
-import scraping
+import app
 
-URL = "https://kundenportal.vivawest.de/"
 
 # launch with this command inside the `source` folder
 # poetry run python main.py
 
 
 def main(argv) -> int:
-    username = os.environ.get("USERNAME", None)
-    password = os.environ.get("PASSWORD", None)
+    result = app.get_as_json()
 
-    if len(argv) > 0 and argv[0] == "json":
-        result = scraping.scrape_site(URL, username, password)
-        result = data_extraction.scrape_site_json(result)
-        result = json.dumps(result, sort_keys=True, indent=4, ensure_ascii=False)
-    else:
-        result = scraping.scrape_site(URL, username, password)
+    print(json.dumps(result, sort_keys=True, indent=4, ensure_ascii=False))
 
-    print(result)
     return 0
 
 

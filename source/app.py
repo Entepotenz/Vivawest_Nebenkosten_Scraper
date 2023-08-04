@@ -2,7 +2,6 @@ import os
 
 from flask import Flask
 
-import data_extraction
 import scraping
 
 URL = "https://kundenportal.vivawest.de/"
@@ -15,18 +14,32 @@ app = Flask(__name__)
 
 @app.route("/")
 def get_as_html():
-    username = os.environ.get("USERNAME", None)
-    password = os.environ.get("PASSWORD", None)
-    result = scraping.scrape_site(URL, username, password)
-    return result
+    return get_as_json()
 
 
 @app.route("/json")
 def get_as_json():
     username = os.environ.get("USERNAME", None)
     password = os.environ.get("PASSWORD", None)
+
     result = scraping.scrape_site(URL, username, password)
-    result = data_extraction.scrape_site_json(result)
+    result["heizenergie"] = reformat_data_for_month(result["heizenergie"])
+    result["kaltwasser"] = reformat_data_for_month(result["kaltwasser"])
+
+    return result
+
+
+def reformat_data_for_month(data: list) -> dict:
+    result = {}
+
+    for item in data:
+        keyname = f'{item["jahr"]}-{item["monat"]}'
+        if keyname in result:
+            raise ValueError(
+                f'keyname is NOT unique; keyname:={keyname}; result["{keyname}"]:={result[keyname]}; item:={item}'
+            )
+        else:
+            result[keyname] = item
 
     return result
 

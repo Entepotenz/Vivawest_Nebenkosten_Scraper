@@ -18,12 +18,6 @@ def run_selenium_first_step(url_to_scrape: str, username: str, password: str):
     options.add_argument("--disable-dev-shm-usage")  # Not used
     driver = webdriver.Chrome(options=options)
 
-    # implicit wait tells WebDriver to poll the DOM for a certain amount of time
-    # when trying to find any element (or elements) not immediately available.
-    # The default setting is 0 (zero).
-    # Once set, the implicit wait is set for the life of the WebDriver object.
-    driver.implicitly_wait(10)
-
     driver.get(url_to_scrape)
     time.sleep(5)  # TODO: remove this
     max_wait_time_in_seconds = 5  # seconds

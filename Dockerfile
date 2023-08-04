@@ -51,5 +51,5 @@ WORKDIR /app
 COPY source/ /app/source/
 
 CMD ["sh", "-c", "source /app/pass.sh; python source/main.py json"]
-# CMD ["sh", "-c", "source /app/pass.sh; python source/main.py"]
+#CMD ["sh", "-c", "source /app/pass.sh; python source/main.py"]
 #CMD ["sh", "-c", "source /app/pass.sh; python -m pytest source/tests/"]
