@@ -3,7 +3,6 @@ import sys
 
 import app
 
-
 # launch with this command inside the `source` folder
 # poetry run python main.py
 
