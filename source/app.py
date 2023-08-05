@@ -1,3 +1,4 @@
+import datetime
 import os
 
 from flask import Flask
@@ -33,7 +34,8 @@ def reformat_data_for_month(data: list) -> dict[str, dict]:
     result = {}
 
     for item in data:
-        keyname = f'{item["jahr"]}-{item["monat"]}'
+        parsed_date = datetime.datetime(item["jahr"], item["monat"], 1)
+        keyname = parsed_date.strftime('%Y-%m')
         if keyname in result:
             raise ValueError(
                 f'keyname is NOT unique; keyname:={keyname}; result["{keyname}"]:={result[keyname]}; item:={item}'

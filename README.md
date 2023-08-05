@@ -16,7 +16,7 @@ export PASSWORD="SECRET"
 ```json
 {
   "heizenergie": {
-    "2022-5": {
+    "2022-05": {
       "ablesedatum": "2022-06-02T00:00:00+02:00",
       "differenz_liegenschaft_qm_prozent": 50,
       "jahr": 2022,
@@ -31,7 +31,7 @@ export PASSWORD="SECRET"
     }
   },
   "kaltwasser": {
-    "2022-5": {
+    "2022-05": {
       "ablesedatum": "2022-06-02T00:00:00+02:00",
       "differenz_liegenschaft_qm_prozent": 20.0,
       "jahr": 2022,
