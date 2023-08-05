@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Black">
+    <option name="enabledOnReformat" value="true" />
+    <option name="enabledOnSave" value="true" />
+    <option name="pathToExecutable" value="/opt/homebrew/bin/black" />
+    <option name="sdkUUID" value="b0e20cc8-c9aa-44ed-9e6d-a7c089ae40f0" />
+  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="Poetry (Vivawest_scraper) (2)" project-jdk-type="Python SDK" />
+  <component name="PyCharmProfessionalAdvertiser">
+    <option name="shown" value="true" />
+  </component>
+</project>
