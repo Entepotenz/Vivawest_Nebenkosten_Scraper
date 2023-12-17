@@ -35,7 +35,7 @@ def reformat_data_for_month(data: list) -> dict[str, dict]:
 
     for item in data:
         parsed_date = datetime.datetime(item["jahr"], item["monat"], 1)
-        keyname = parsed_date.strftime('%Y-%m')
+        keyname = parsed_date.strftime("%Y-%m")
         if keyname in result:
             raise ValueError(
                 f'keyname is NOT unique; keyname:={keyname}; result["{keyname}"]:={result[keyname]}; item:={item}'
