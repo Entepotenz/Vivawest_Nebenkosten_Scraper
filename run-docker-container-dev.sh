@@ -18,7 +18,6 @@ docker run --rm -it -v "$SCRIPT_DIR:/app" -v "/app/.venv" -p 127.0.0.1:80:8080 p
         && rm -rf /var/lib/apt/lists/*s; \
     export LANG=\"de_DE.UTF-8\"; \
     export LC_ALL=\"de_DE.UTF-8\"; \
-    pip install --no-cache-dir --upgrade pip; \
     pip install poetry; \
     cd /app; \
     poetry install; \

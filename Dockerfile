@@ -19,8 +19,6 @@ RUN apk add --no-cache \
 
 COPY requirements.txt /requirements.txt
 
-RUN pip install --no-cache-dir --upgrade pip
-
 RUN python3 --version; pip3 --version
 
 RUN pip install --no-cache-dir --target=/dependencies -r /requirements.txt

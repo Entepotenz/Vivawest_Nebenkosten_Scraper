@@ -3,13 +3,13 @@
 name: Run all python tests
 
 on:
-#  pull_request:
-#    branches: [master, main]
-#  push:
-#    branches:
-#      - "**"
-#    tags:
-#      - "v*.*.*"
+  #  pull_request:
+  #    branches: [master, main]
+  #  push:
+  #    branches:
+  #      - "**"
+  #    tags:
+  #      - "v*.*.*"
   workflow_dispatch:
 
 jobs:
@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        architecture-name: ["aarch64", "armhf", "armv7"]
+        architecture-name: [ "aarch64", "armhf", "armv7" ]
     env:
       LANG: de_DE.UTF-8
       LC_ALL: de_DE.UTF-8
@@ -37,7 +37,6 @@ jobs:
           VIRTUAL_ENV=/opt/venv
           python3 -m venv "$VIRTUAL_ENV"
           PATH="$VIRTUAL_ENV/bin:$PATH"
-          pip install --no-cache-dir --upgrade pip
           pip install -r requirements-dev.txt
         shell: alpine.sh --root {0}
       - name: Run tests
