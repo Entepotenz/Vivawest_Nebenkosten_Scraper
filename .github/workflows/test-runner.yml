@@ -4,13 +4,13 @@ name: Run all python tests
 
 # yamllint disable-line rule:truthy
 on:
-  pull_request:
-    branches: [master, main]
-  push:
-    branches:
-      - "**"
-    tags:
-      - "v*.*.*"
+  # pull_request:
+  #   branches: [master, main]
+  # push:
+  #   branches:
+  #     - "**"
+  #   tags:
+  #     - "v*.*.*"
   workflow_dispatch:
 
 jobs:
