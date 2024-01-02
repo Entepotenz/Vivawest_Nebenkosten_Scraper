@@ -1,6 +1,7 @@
 ---
 
 name: Create GitHubNext diagram
+# yamllint disable-line rule:truthy
 on:
   workflow_dispatch: { }
 #  push:

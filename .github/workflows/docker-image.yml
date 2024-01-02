@@ -6,6 +6,7 @@
 
 name: Create and publish a Docker image
 
+# yamllint disable-line rule:truthy
 on:
   schedule:
     - cron: "5 4 * * 0" # At 04:05 on Sunday
