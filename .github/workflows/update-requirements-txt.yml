@@ -2,6 +2,7 @@
 
 name: update requirements.txt and requirements-dev.txt
 
+# yamllint disable-line rule:truthy
 on:
   pull_request:
     branches: [master, main]

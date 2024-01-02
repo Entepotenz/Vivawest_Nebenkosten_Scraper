@@ -5,12 +5,12 @@ set -o pipefail
 set -o nounset
 if [[ "${TRACE-0}" == "1" ]]; then set -o xtrace; fi
 
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 
-if ! command -v pylint &> /dev/null; then
-    docker run --rm -it -v "$(pwd)/source:/source" python:3-slim bash -c "\
+if ! command -v pylint &>/dev/null; then
+  docker run --rm -it -v "$(pwd)/source:/source" python:3-slim bash -c "\
         pip install pylint; \
         pylint /source"
 else
-    pylint "$SCRIPT_DIR/source"
+  pylint "$SCRIPT_DIR/source"
 fi
