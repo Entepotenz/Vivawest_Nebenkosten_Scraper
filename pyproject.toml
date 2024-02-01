@@ -11,7 +11,7 @@ beautifulsoup4 = "^4.12.2"
 Flask = "^3.0.0"
 
 [tool.poetry.dev-dependencies]
-black = "^23.12.1"
+black = "^24.1.1"
 yapf = "^0.40.2"
 toml = "^0.10.2"
 pytest = "^7.4.4"
