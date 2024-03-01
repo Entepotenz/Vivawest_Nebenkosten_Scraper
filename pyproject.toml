@@ -8,7 +8,7 @@ authors = ["floriankretschmer <entepotenz@gmail.com>"]
 python = "^3.9"
 selenium = "^4.15.2"
 beautifulsoup4 = "^4.12.3"
-Flask = "^3.0.1"
+Flask = "^3.0.2"
 
 [tool.poetry.dev-dependencies]
 black = "^24.2.0"
