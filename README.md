@@ -1,5 +1,7 @@
 # Vivawest_scraper
 
+[![MegaLinter](https://github.com/Entepotenz/Vivawest_Nebenkosten_Scraper/actions/workflows/megalinter.yml/badge.svg)](https://github.com/Entepotenz/Vivawest_Nebenkosten_Scraper/actions/workflows/megalinter.yml)
+
 **Warning**: the code has very bad ugly quality!
 
 

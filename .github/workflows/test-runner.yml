@@ -1,5 +1,4 @@
 ---
-
 name: Run all python tests
 
 # yamllint disable-line rule:truthy
@@ -18,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        architecture-name: [ "aarch64", "x86_64" ]
+        architecture-name: ["aarch64", "x86_64"]
     env:
       LANG: de_DE.UTF-8
       LC_ALL: de_DE.UTF-8
