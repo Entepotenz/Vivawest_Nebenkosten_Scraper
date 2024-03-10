@@ -10,12 +10,12 @@ ENV LANG de_DE.UTF-8
 ENV LC_ALL de_DE.UTF-8
 
 RUN apk add --no-cache \
-    python3 \
-    python3-dev \
-    py3-pip \
-    build-base \
-#    musl-locales \
-#    musl-locales-lang \
+  python3 \
+  python3-dev \
+  py3-pip \
+  build-base \
+  #    musl-locales \
+  #    musl-locales-lang \
   && rm -rf /var/cache/apk/*
 
 COPY requirements.txt /requirements.txt
@@ -33,21 +33,26 @@ ENV LANG de_DE.UTF-8
 ENV LC_ALL de_DE.UTF-8
 #ENV MUSL_LOCPATH="/usr/share/i18n/locales/musl"
 
+RUN addgroup --system python && \
+  adduser -S -s /bin/false -G python python
+
 RUN apk add --no-cache \
-    python3 \
-    chromium-chromedriver \
-#    musl-locales \
-#    musl-locales-lang \
+  python3 \
+  chromium-chromedriver \
+  #    musl-locales \
+  #    musl-locales-lang \
   && rm -rf /var/cache/apk/*
 
-COPY --from=builder /dependencies /usr/local
+COPY --chown=python:python --from=builder /dependencies /usr/local
 ENV PYTHONPATH=/usr/local
 
 RUN python3 --version
 
 WORKDIR /app
 
-COPY source/ /app/source/
+COPY --chown=python:python source/ /app/source/
+
+USER python
 
 CMD ["sh", "-c", "source /app/pass.sh; python source/main.py json"]
 #CMD ["sh", "-c", "source /app/pass.sh; python source/main.py"]
