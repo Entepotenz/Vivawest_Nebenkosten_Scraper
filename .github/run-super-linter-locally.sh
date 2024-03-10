@@ -11,6 +11,6 @@ FOLDER_PATH_TO_ANALYZE="$SCRIPT_DIR/../"
 FOLDER_PATH_TO_ANALYZE=$(readlink -f "$FOLDER_PATH_TO_ANALYZE")
 
 docker run --rm \
-  -e RUN_LOCAL=true \
-  --env-file "$SCRIPT_DIR/super-linter-locally.env" \
-  -v "$FOLDER_PATH_TO_ANALYZE":/tmp/lint github/super-linter:slim-latest
+    -e RUN_LOCAL=true \
+    --env-file "$SCRIPT_DIR/super-linter-locally.env" \
+    -v "$FOLDER_PATH_TO_ANALYZE":/tmp/lint github/super-linter:slim-latest
