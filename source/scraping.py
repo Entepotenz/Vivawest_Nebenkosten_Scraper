@@ -38,7 +38,11 @@ def get_kaltwasser(driver) -> dict:
 def transform_data(data) -> dict:
     transformed_data = {}
     for messwert in data.get("messwerte"):
-        transformed_data[f'{messwert.get("jahr")}-{messwert.get("monat")}'] = messwert
+        month_as_string = str(messwert.get("monat"))
+        if int(messwert.get("monat")) < 10:
+            month_as_string = f'0{messwert.get("monat")}'
+
+        transformed_data[f'{messwert.get("jahr")}-{month_as_string}'] = messwert
 
     return transformed_data
 
