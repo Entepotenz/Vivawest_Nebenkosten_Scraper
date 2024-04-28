@@ -11,7 +11,6 @@
     "github-actions",
     "pep621",
     "pip_requirements",
-    "pip_requirements",
     "poetry",
     "custom.regex"
   ]
