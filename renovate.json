@@ -6,12 +6,23 @@
     "regexManagers:dockerfileVersions"
   ],
   "enabledManagers": [
-    "docker-compose",
     "dockerfile",
     "github-actions",
     "pep621",
     "pip_requirements",
     "poetry",
     "custom.regex"
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "run-.+.sh"
+      ],
+      "matchStrings": [
+        "DOCKER_IMAGE=\"(?<depName>.*?):(?<currentValue>.*?)@(?<currentDigest>sha256:[a-f0-9]+)\""
+      ],
+      "datasourceTemplate": "docker"
+    }
   ]
 }
