@@ -5,21 +5,26 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.ui import Select, WebDriverWait
+from selenium.webdriver.support.ui import WebDriverWait
 
 
-def run_selenium_first_step(url_to_scrape: str, username: str, password: str):
+def run_selenium_init(url_to_scrape: str, headless: bool = True):
     options = webdriver.ChromeOptions()
     options.add_argument("window-size=1280,720")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-gpu")
-    options.add_argument("--headless")
+    if headless:
+        options.add_argument("--headless")
     options.add_argument("--disable-dev-shm-usage")  # Not used
     driver = webdriver.Chrome(options=options)
 
     driver.get(url_to_scrape)
-    time.sleep(5)  # TODO: remove this
+    return driver
+
+
+def run_selenium_login(driver, username: str, password: str):
     max_wait_time_in_seconds = 5  # seconds
+    time.sleep(5)
     try:
         WebDriverWait(driver, max_wait_time_in_seconds).until(
             expected_conditions.presence_of_element_located(
@@ -57,116 +62,6 @@ def run_selenium_first_step(url_to_scrape: str, username: str, password: str):
             (By.CSS_SELECTOR, ".modal-backdrop")
         )
     )
-
-    try:
-        WebDriverWait(driver, max_wait_time_in_seconds).until(
-            expected_conditions.element_to_be_clickable(
-                (
-                    By.XPATH,
-                    '//a[text()[contains(.,"Nebenkosten")]]',
-                )
-            )
-        )
-        driver.find_element(
-            By.XPATH,
-            '//a[text()[contains(.,"Nebenkosten")]]',
-        ).click()
-    except Exception as exception:
-        logging.exception(exception)
-
-    WebDriverWait(driver, max_wait_time_in_seconds).until(
-        expected_conditions.invisibility_of_element_located(
-            (By.CSS_SELECTOR, ".modal-backdrop")
-        )
-    )
-
-    try:
-        WebDriverWait(driver, max_wait_time_in_seconds).until(
-            expected_conditions.element_to_be_clickable(
-                (By.XPATH, '//*[text()[contains(.,"Verbräuche")]]')
-            )
-        )
-        driver.find_element(By.XPATH, '//*[text()[contains(.,"Verbräuche")]]').click()
-    except Exception as exception:
-        logging.exception(exception)
-
-    WebDriverWait(driver, max_wait_time_in_seconds).until(
-        expected_conditions.element_to_be_clickable((By.ID, "logo"))
-    )
-
-    try:
-        WebDriverWait(driver, max_wait_time_in_seconds).until(
-            expected_conditions.element_to_be_clickable(
-                (By.XPATH, '//*[text()[contains(.,"Zu den Details")]]')
-            )
-        )
-        driver.find_element(
-            By.XPATH, '//*[text()[contains(.,"Zu den Details")]]'
-        ).click()
-    except Exception as exception:
-        logging.exception(exception)
-
-    WebDriverWait(driver, max_wait_time_in_seconds).until(
-        expected_conditions.element_to_be_clickable((By.ID, "logo"))
-    )
-
-    WebDriverWait(driver, max_wait_time_in_seconds).until(
-        expected_conditions.invisibility_of_element_located(
-            (By.CSS_SELECTOR, ".modal-backdrop")
-        )
-    )
-
-    WebDriverWait(driver, max_wait_time_in_seconds).until(
-        expected_conditions.visibility_of_element_located(
-            (By.XPATH, '//*[text()[contains(.,"Verbrauch der letzten")]]')
-        )
-    )
-
-    select = Select(
-        driver.find_element(
-            By.XPATH,
-            '//*[text()[contains(.,"Vergleich Vorjahr")]]/parent::select',
-        )
-    )
-    select.select_by_visible_text("Vergleich Liegenschaft")
-
-    WebDriverWait(driver, max_wait_time_in_seconds).until(
-        expected_conditions.element_to_be_clickable((By.ID, "logo"))
-    )
-
-    WebDriverWait(driver, max_wait_time_in_seconds).until(
-        expected_conditions.invisibility_of_element_located(
-            (By.CSS_SELECTOR, ".modal-backdrop")
-        )
-    )
-
-    return driver
-
-
-def run_selenium_second_step(driver):
-    max_wait_time_in_seconds = 5  # seconds
-    select = Select(
-        driver.find_element(
-            By.XPATH,
-            '//*[text()[contains(.,"Verbrauchsart auswählen")]]/parent::div/child::select',
-        )
-    )
-    select.select_by_visible_text("Kaltwasser")
-
-    select = Select(
-        driver.find_element(
-            By.XPATH,
-            '//*[text()[contains(.,"Vergleich Vorjahr")]]/parent::select',
-        )
-    )
-    select.select_by_visible_text("Vergleich Liegenschaft")
-
-    WebDriverWait(driver, max_wait_time_in_seconds).until(
-        expected_conditions.visibility_of_element_located(
-            (By.XPATH, '//*[text()[contains(.,"Verbrauch der letzten")]]')
-        )
-    )
-    return driver
 
 
 def run_selenium_logout(driver):

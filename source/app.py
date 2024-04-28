@@ -1,4 +1,3 @@
-import datetime
 import os
 
 from flask import Flask
@@ -23,27 +22,7 @@ def get_as_json():
     username = os.environ.get("USERNAME", None)
     password = os.environ.get("PASSWORD", None)
 
-    result = scraping.scrape_site(URL, username, password)
-    result["heizenergie"] = reformat_data_for_month(result["heizenergie"])
-    result["kaltwasser"] = reformat_data_for_month(result["kaltwasser"])
-
-    return result
-
-
-def reformat_data_for_month(data: list) -> dict[str, dict]:
-    result = {}
-
-    for item in data:
-        parsed_date = datetime.datetime(item["jahr"], item["monat"], 1)
-        keyname = parsed_date.strftime("%Y-%m")
-        if keyname in result:
-            raise ValueError(
-                f'keyname is NOT unique; keyname:={keyname}; result["{keyname}"]:={result[keyname]}; item:={item}'
-            )
-        else:
-            result[keyname] = item
-
-    return result
+    return scraping.scrape_site(URL, username, password)
 
 
 if __name__ == "__main__":
