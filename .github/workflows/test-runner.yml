@@ -17,14 +17,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        architecture-name: ["aarch64", "x86_64"]
+        architecture-name: [ "aarch64", "x86_64" ]
     env:
       LANG: de_DE.UTF-8
       LC_ALL: de_DE.UTF-8
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
       - name: Setup latest Alpine Linux
-        uses: jirutka/setup-alpine@v1
+        uses: jirutka/setup-alpine@359b91e094d3dc6292e4b627abb84d8856ab7ef2 # v1.2.0
         with:
           arch: ${{ matrix.architecture-name }}
           branch: latest-stable
