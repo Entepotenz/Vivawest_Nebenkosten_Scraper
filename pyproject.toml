@@ -8,7 +8,7 @@ authors = ["floriankretschmer <entepotenz@gmail.com>"]
 python = "^3.9"
 selenium = "4.15.2"
 Flask = "3.0.3"
-requests = "2.31.0"
+requests = "2.32.0"
 
 [tool.poetry.dev-dependencies]
 black = "24.4.2"
