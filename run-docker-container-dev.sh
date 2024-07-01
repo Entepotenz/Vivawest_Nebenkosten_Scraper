@@ -7,7 +7,7 @@ if [[ "${TRACE-0}" == "1" ]]; then set -o xtrace; fi
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 
-DOCKER_IMAGE="python:3.12.3-slim@sha256:afc139a0a640942491ec481ad8dda10f2c5b753f5c969393b12480155fe15a63"
+DOCKER_IMAGE="python:3.12.4-slim@sha256:da2d7af143dab7cd5b0d5a5c9545fe14e67fc24c394fcf1cf15e8ea16cbd8637"
 
 # shellcheck disable=SC1091
 source "$SCRIPT_DIR/pass.sh"
