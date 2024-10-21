@@ -5,7 +5,7 @@ set -o pipefail
 set -o nounset
 if [[ "${TRACE-0}" == "1" ]]; then set -o xtrace; fi
 
-DOCKER_IMAGE="python:3.12.4-slim@sha256:f11725aba18c19664a408902103365eaf8013823ffc56270f921d1dc78a198cb"
+DOCKER_IMAGE="python:3.13.0-slim@sha256:751d8bece269ba9e672b3f2226050e7e6fb3f3da3408b5dcb5d415a054fcb061"
 
 docker run --rm \
   --pull always \
