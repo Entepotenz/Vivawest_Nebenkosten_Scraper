@@ -1,7 +1,7 @@
 attrs==24.2.0 ; python_version >= "3.9" and python_version < "4.0" \
     --hash=sha256:5cfb1b9148b5b086569baec03f20d7b6bf3bcacc9a42bebf87ffaaca362f6346 \
     --hash=sha256:81921eb96de3191c8258c199618104dd27ac608d9366f5e35d011eae1867ede2
-black==24.4.2 ; python_version >= "3.9" and python_version < "4.0" \
+black==24.10.0 ; python_version >= "3.9" and python_version < "4.0" \
     --hash=sha256:257d724c2c9b1660f353b36c802ccece186a30accc7742c176d29c146df6e474 \
     --hash=sha256:37aae07b029fa0174d39daf02748b379399b909652a806e5708199bd93899da1 \
     --hash=sha256:415e686e87dbbe6f4cd5ef0fbf764af7b89f9057b97c908742b6008cc554b9c0 \
