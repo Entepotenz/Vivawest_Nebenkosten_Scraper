@@ -332,7 +332,7 @@ urllib3==2.2.3 ; python_version >= "3.9" and python_version < "4.0" \
 urllib3[socks]==2.2.3 ; python_version >= "3.9" and python_version < "4.0" \
     --hash=sha256:ca899ca043dcb1bafa3e262d73aa25c465bfb49e0bd9dd5d59f1d0acba2f8fac \
     --hash=sha256:e7d814a81dad81e6caf2ec9fdedb284ecc9c73076b62654547cc64ccdcae26e9
-werkzeug==3.0.4 ; python_version >= "3.9" and python_version < "4.0" \
+werkzeug==3.0.6 ; python_version >= "3.9" and python_version < "4.0" \
     --hash=sha256:02c9eb92b7d6c06f31a782811505d2157837cea66aaede3e217c7c27c039476c \
     --hash=sha256:34f2371506b250df4d4f84bfe7b0921e4762525762bbd936614909fe25cd7306
 wsproto==1.2.0 ; python_version >= "3.9" and python_version < "4.0" \
