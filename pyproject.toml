@@ -6,7 +6,7 @@ authors = ["floriankretschmer <entepotenz@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-selenium = "4.15.2"
+selenium = "4.26.1"
 Flask = "3.0.3"
 requests = "2.32.3"
 
