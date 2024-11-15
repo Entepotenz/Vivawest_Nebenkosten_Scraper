@@ -4,7 +4,8 @@
     "config:best-practices",
     "helpers:pinGitHubActionDigests",
     "customManagers:dockerfileVersions",
-    "security:openssf-scorecard"
+    "security:openssf-scorecard",
+    ":disableRateLimiting"
   ],
   "enabledManagers": [
     "dockerfile",
@@ -17,13 +18,19 @@
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": [
-        "run-.+.sh"
-      ],
+      "fileMatch": ["run-.+.sh"],
       "matchStrings": [
         "DOCKER_IMAGE=\"(?<depName>.*?):(?<currentValue>.*?)@(?<currentDigest>sha256:[a-f0-9]+)\""
       ],
       "datasourceTemplate": "docker"
+    }
+  ],
+  "packageRules": [
+    {
+      "groupName": "GitHub Artifact Actions",
+      "enabled": true,
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor", "patch"]
     }
   ]
 }
