@@ -1,8 +1,7 @@
 import os
 
-from flask import Flask
-
 import scraping
+from flask import Flask
 
 URL = "https://kundenportal.vivawest.de/"
 

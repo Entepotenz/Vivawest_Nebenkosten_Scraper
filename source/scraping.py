@@ -3,7 +3,6 @@ import logging
 from http import HTTPStatus
 
 import requests
-
 import selenium_code
 
 
