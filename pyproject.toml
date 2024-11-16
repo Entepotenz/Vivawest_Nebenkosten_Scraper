@@ -7,12 +7,11 @@ authors = ["floriankretschmer <entepotenz@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.9"
 selenium = "4.15.2"
-Flask = "3.0.3"
 requests = "2.32.3"
 
 [tool.poetry.dev-dependencies]
-black = "24.4.2"
-yapf = "0.40.2"
+black = "24.10.0"
+yapf = "0.43.0"
 toml = "0.10.2"
 mypy = "1.13.0"
 types-requests = "2.32.0.20241016"
