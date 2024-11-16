@@ -3,32 +3,38 @@ import logging
 from http import HTTPStatus
 
 import requests
+
 import selenium_code
 
 
 def scrape_site(url_to_scrape: str, username: str, password: str) -> dict:
     result = {}
 
-    driver = selenium_code.run_selenium_init(url_to_scrape, headless=True)
+    driver = selenium_code.run_selenium_init(url_to_scrape, headless=False)
     selenium_code.run_selenium_login(driver, username, password)
-    result["heizenergie"] = get_heizenergie(driver)
-    result["kaltwasser"] = get_kaltwasser(driver)
+    bearer_token = selenium_code.get_authorization_bearer(driver)
+    result["heizenergie"] = get_heizenergie(driver, bearer_token)
+    result["kaltwasser"] = get_kaltwasser(driver, bearer_token)
     selenium_code.run_selenium_logout(driver)
 
     return result
 
 
-def get_heizenergie(driver) -> dict:
+def get_heizenergie(driver, bearer_token: str) -> dict:
     data = get_data_from_api(
-        driver, "https://kundenportal.vivawest.de/api/uvi/current/heizenergie"
+        driver,
+        "https://kundenportal.vivawest.de/api/uvi/current/heizenergie",
+        bearer_token,
     )
 
     return transform_data(data)
 
 
-def get_kaltwasser(driver) -> dict:
+def get_kaltwasser(driver, bearer_token: str) -> dict:
     data = get_data_from_api(
-        driver, "https://kundenportal.vivawest.de/api/uvi/current/kaltwasser"
+        driver,
+        "https://kundenportal.vivawest.de/api/uvi/current/kaltwasser",
+        bearer_token,
     )
 
     return transform_data(data)
@@ -46,8 +52,8 @@ def transform_data(data) -> dict:
     return transformed_data
 
 
-def get_data_from_api(driver, url) -> dict:
-    session = create_requests_instance_from_selenium_driver(driver)
+def get_data_from_api(driver, url: str, bearer_token: str) -> dict:
+    session = create_requests_instance_from_selenium_driver(driver, bearer_token)
     response = session.get(url)
 
     if response.status_code == HTTPStatus.OK:
@@ -57,8 +63,11 @@ def get_data_from_api(driver, url) -> dict:
         return {}
 
 
-def create_requests_instance_from_selenium_driver(driver) -> requests.Session:
+def create_requests_instance_from_selenium_driver(
+    driver, bearer_token: str
+) -> requests.Session:
     session = requests.Session()
+    session.headers.update({"Authorization": bearer_token})
     for cookie in driver.get_cookies():
         session.cookies.set(cookie["name"], cookie["value"])
 

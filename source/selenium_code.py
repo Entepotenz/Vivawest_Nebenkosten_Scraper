@@ -1,11 +1,15 @@
 import logging
+import re
 import time
 
+import requests
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.ui import WebDriverWait
+
+max_wait_time_in_seconds = 5
 
 
 def run_selenium_init(url_to_scrape: str, headless: bool = True):
@@ -23,7 +27,6 @@ def run_selenium_init(url_to_scrape: str, headless: bool = True):
 
 
 def run_selenium_login(driver, username: str, password: str):
-    max_wait_time_in_seconds = 5  # seconds
     time.sleep(5)
     try:
         WebDriverWait(driver, max_wait_time_in_seconds).until(
@@ -31,13 +34,15 @@ def run_selenium_login(driver, username: str, password: str):
                 (By.ID, "usercentrics-root")
             )
         )
-        driver.execute_script(
+        accept_button = driver.execute_script(
             """
             return document.querySelector('div#usercentrics-root')\
             .shadowRoot\
             .querySelector('button[data-testid="uc-accept-all-button"]')
             """
-        ).click()
+        )
+        if accept_button:
+            accept_button.click()
     except NoSuchElementException as exception:
         logging.warning(exception)
 
@@ -64,24 +69,51 @@ def run_selenium_login(driver, username: str, password: str):
     )
 
 
-def run_selenium_logout(driver):
-    max_wait_time_in_seconds = 5  # seconds
+def get_authorization_bearer(driver) -> str:
+    driver.find_elements(By.XPATH, "//*[text()[contains(.,'Nebenkosten')]]")[0].click()
     WebDriverWait(driver, max_wait_time_in_seconds).until(
-        expected_conditions.visibility_of_element_located((By.ID, "user-menu"))
-    )
-    driver.find_element(By.ID, "user-menu").click()
-
-    WebDriverWait(driver, max_wait_time_in_seconds).until(
-        expected_conditions.element_to_be_clickable(
-            (
-                By.XPATH,
-                "//a[contains(@class, 'dropdown-item') and contains(@class, 'logout')]",
-            )
+        expected_conditions.presence_of_element_located(
+            (By.XPATH, "//div[text()[contains(.,'Verbräuche')]]")
         )
     )
-    driver.find_element(
-        By.XPATH,
-        "//a[contains(@class, 'dropdown-item') and contains(@class, 'logout')]",
-    ).click()
+    driver.find_elements(By.XPATH, "//div[text()[contains(.,'Verbräuche')]]")[0].click()
+
+    regex_for_bearer_token = r"Bearer\s+[A-Za-z0-9_]+"
+
+    javascripts_to_check = set()
+
+    for item in driver.find_elements(By.TAG_NAME, "link"):
+        if item.get_attribute("as") == "script":
+            javascripts_to_check.add(item.get_attribute("href"))
+
+    for script in javascripts_to_check:
+        response = requests.get(script)
+        if "bearer" in response.text.lower():
+            match = re.search(regex_for_bearer_token, response.text)
+            if match:
+                return match.group(0)
+
+    logging.error(f"Unable to find the Bearer token:")
+    return ""
+
+
+def run_selenium_logout(driver):
+    # WebDriverWait(driver, max_wait_time_in_seconds).until(
+    #     expected_conditions.visibility_of_element_located((By.ID, "user-menu"))
+    # )
+    # driver.find_element(By.ID, "user-menu").click()
+    #
+    # WebDriverWait(driver, max_wait_time_in_seconds).until(
+    #     expected_conditions.element_to_be_clickable(
+    #         (
+    #             By.XPATH,
+    #             "//a[contains(@class, 'dropdown-item') and contains(@class, 'logout')]",
+    #         )
+    #     )
+    # )
+    # driver.find_element(
+    #     By.XPATH,
+    #     "//a[contains(@class, 'dropdown-item') and contains(@class, 'logout')]",
+    # ).click()
 
     driver.close()
