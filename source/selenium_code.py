@@ -12,7 +12,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 max_wait_time_in_seconds = 5
 
 
-def run_selenium_init(url_to_scrape: str, headless: bool = True):
+def run_selenium_init(url_to_scrape: str, headless: bool = False):
     options = webdriver.ChromeOptions()
     options.add_argument("window-size=1280,720")
     options.add_argument("--no-sandbox")
