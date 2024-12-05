@@ -14,7 +14,7 @@ max_wait_time_in_seconds = 5
 
 def run_selenium_init(url_to_scrape: str, headless: bool = False):
     options = webdriver.ChromeOptions()
-    options.add_argument("window-size=1280,720")
+    options.add_argument("window-size=1920,1080")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-gpu")
     if headless:
@@ -53,30 +53,40 @@ def run_selenium_login(driver, username: str, password: str):
     )
 
     WebDriverWait(driver, max_wait_time_in_seconds).until(
-        expected_conditions.visibility_of_element_located((By.ID, "login-username"))
-    )
-    driver.find_element(By.ID, "login-username").send_keys(username)
-    WebDriverWait(driver, max_wait_time_in_seconds).until(
-        expected_conditions.visibility_of_element_located((By.ID, "login-password"))
-    )
-    driver.find_element(By.ID, "login-password").send_keys(password)
-    driver.find_element(By.ID, "loginForm").submit()
-
-    WebDriverWait(driver, max_wait_time_in_seconds).until(
-        expected_conditions.invisibility_of_element_located(
-            (By.CSS_SELECTOR, ".modal-backdrop")
+        expected_conditions.visibility_of_element_located(
+            (By.XPATH, "//input[@type='email']")
         )
     )
+    driver.find_element(By.XPATH, "//input[@type='email']").send_keys(username)
+    WebDriverWait(driver, max_wait_time_in_seconds).until(
+        expected_conditions.visibility_of_element_located(
+            (By.XPATH, "//input[@type='password']")
+        )
+    )
+    driver.find_element(By.XPATH, "//input[@type='password']").send_keys(password)
+    driver.find_element(
+        By.XPATH, "//*[text()[contains(.,'Anmelden')]]/ancestor::button"
+    ).submit()
 
 
 def get_authorization_bearer(driver) -> str:
+    WebDriverWait(driver, max_wait_time_in_seconds).until(
+        expected_conditions.element_to_be_clickable(
+            (By.XPATH, "//*[text()[contains(.,'Nebenkosten')]]")
+        )
+    )
     driver.find_elements(By.XPATH, "//*[text()[contains(.,'Nebenkosten')]]")[0].click()
+
     WebDriverWait(driver, max_wait_time_in_seconds).until(
         expected_conditions.presence_of_element_located(
             (By.XPATH, "//div[text()[contains(.,'Verbräuche')]]")
         )
     )
     driver.find_elements(By.XPATH, "//div[text()[contains(.,'Verbräuche')]]")[0].click()
+    all_cookies = driver.get_cookies()
+    cookies_dict = {}
+    for cookie in all_cookies:
+        cookies_dict[cookie["name"]] = cookie["value"]
 
     regex_for_bearer_token = r"Bearer\s+[A-Za-z0-9_]+"
 
@@ -87,8 +97,12 @@ def get_authorization_bearer(driver) -> str:
             javascripts_to_check.add(item.get_attribute("href"))
 
     for script in javascripts_to_check:
-        response = requests.get(script)
-        if "bearer" in response.text.lower():
+        response = None
+        try:
+            response = requests.get(script, cookies=cookies_dict)
+        except requests.exceptions.RequestException as e:
+            logging.warning(f"request failed for {script}; {e}")
+        if response and "bearer" in response.text.lower():
             match = re.search(regex_for_bearer_token, response.text)
             if match:
                 return match.group(0)
