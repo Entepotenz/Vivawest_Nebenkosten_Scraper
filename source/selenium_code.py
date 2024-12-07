@@ -99,9 +99,13 @@ def get_authorization_bearer(driver) -> str:
     for script in javascripts_to_check:
         response = None
         try:
-            response = requests.get(script, cookies=cookies_dict)
+            if script.startswith("https://kundenportal.vivawest.de"):
+                response = requests.get(script, cookies=cookies_dict)
+            else:
+                response = requests.get(script)
         except requests.exceptions.RequestException as e:
             logging.warning(f"request failed for {script}; {e}")
+            raise
         if response and "bearer" in response.text.lower():
             match = re.search(regex_for_bearer_token, response.text)
             if match:
