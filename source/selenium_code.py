@@ -110,6 +110,7 @@ def get_authorization_bearer(driver) -> str:
             match = re.search(regex_for_bearer_token, response.text)
             if match:
                 return match.group(0)
+        time.sleep(3)
 
     logging.error(f"Unable to find the Bearer token:")
     return ""
