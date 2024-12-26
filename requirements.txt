@@ -212,9 +212,9 @@ sortedcontainers==2.4.0 ; python_version >= "3.9" and python_version < "4.0" \
 trio-websocket==0.11.1 ; python_version >= "3.9" and python_version < "4.0" \
     --hash=sha256:18c11793647703c158b1f6e62de638acada927344d534e3c7628eedcb746839f \
     --hash=sha256:520d046b0d030cf970b8b2b2e00c4c2245b3807853ecd44214acd33d74581638
-trio==0.27.0 ; python_version >= "3.9" and python_version < "4.0" \
-    --hash=sha256:1dcc95ab1726b2da054afea8fd761af74bad79bd52381b84eae408e983c76831 \
-    --hash=sha256:68eabbcf8f457d925df62da780eff15ff5dc68fd6b367e2dde59f7aaf2a0b884
+trio==0.28.0; python_version >= "3.9" and python_version < "4.0" \
+    --hash=sha256:4e547896fe9e8a5658e54e4c7c5fa1db748cbbbaa7c965e7d40505b928c73c05 \
+    --hash=sha256:56d58977acc1635735a96581ec70513cc781b8b6decd299c487d3be2a721cd94
 typing-extensions==4.12.2 ; python_version >= "3.9" and python_version < "4.0" \
     --hash=sha256:04e5ca0351e0f3f85c6853954072df659d0d13fac324d0072316b67d7794700d \
     --hash=sha256:1a7ead55c7e559dd4dee8856e3a88b41225abfe1ce8df57b7c13915fe121ffb8
