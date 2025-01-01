@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Setup latest Alpine Linux
-        uses: jirutka/setup-alpine@359b91e094d3dc6292e4b627abb84d8856ab7ef2 # v1.2.0
+        uses: jirutka/setup-alpine@cf5fddcea495dcc19c0f991c6f6fa6a7abf3d50a # v1.3.0
         with:
           arch: ${{ matrix.architecture-name }}
           branch: latest-stable
