@@ -13,7 +13,7 @@ requests = "2.32.3"
 black = "24.10.0"
 yapf = "0.43.0"
 toml = "0.10.2"
-mypy = "1.13.0"
+mypy = "1.14.1"
 types-requests = "2.32.0.20241016"
 
 [build-system]
