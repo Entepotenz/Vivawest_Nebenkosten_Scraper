@@ -4,6 +4,8 @@ FROM docker.io/library/alpine:3.20.3@sha256:1e42bbe2508154c9126d48c2b8a75420c354
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
+SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
+
 ENV PATH=/usr/local/bin:$PATH
 
 ENV LANG=de_DE.UTF-8
@@ -23,10 +25,15 @@ RUN python3 --version; \
   pip3 --version; \
   poetry --version
 
-RUN poetry self add poetry-plugin-export; \
-  poetry export --without dev --format=requirements.txt | pip install --no-cache-dir --target=/dependencies -r /dev/stdin;
+WORKDIR /app
+
+COPY pyproject.toml poetry.lock ./
+
+RUN poetry export --without dev --format=requirements.txt | pip install --no-cache-dir --target=/dependencies -r /dev/stdin;
 
 FROM docker.io/library/alpine:3.20.3@sha256:1e42bbe2508154c9126d48c2b8a75420c3544343bf86fd041fb7527e017a4b4a
+
+SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
 # https://stackoverflow.com/questions/58701233/docker-logs-erroneously-appears-empty-until-container-stops
 ENV PYTHONUNBUFFERED=1
