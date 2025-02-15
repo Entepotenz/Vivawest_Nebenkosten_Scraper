@@ -1,20 +1,14 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
+    ":disableRateLimiting",
     "config:best-practices",
-    "helpers:pinGitHubActionDigests",
     "customManagers:dockerfileVersions",
-    "security:openssf-scorecard",
-    ":disableRateLimiting"
+    "helpers:pinGitHubActionDigests",
+    "mergeConfidence:all-badges",
+    "security:openssf-scorecard"
   ],
-  "enabledManagers": [
-    "dockerfile",
-    "github-actions",
-    "pep621",
-    "pip_requirements",
-    "poetry",
-    "custom.regex"
-  ],
+  "enabledManagers": ["dockerfile", "github-actions", "poetry", "custom.regex"],
   "customManagers": [
     {
       "customType": "regex",
@@ -31,6 +25,19 @@
       "enabled": true,
       "matchManagers": ["github-actions"],
       "matchUpdateTypes": ["minor", "patch"]
+    },
+    {
+      "groupName": "Development Tools & Linters",
+      "matchDepTypes": ["devDependencies"],
+      "separateMajorMinor": true,
+      "matchPackageNames": [
+        "/black/",
+        "/flake8/",
+        "/mypy/",
+        "/isort/",
+        "/pylint/",
+        "/ruff/"
+      ]
     }
   ]
 }
