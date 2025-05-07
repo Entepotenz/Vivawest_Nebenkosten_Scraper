@@ -12,7 +12,7 @@ readonly PATH_TO_PASS_SH="$SCRIPT_DIR/pass.sh"
 readonly PATH_TO_SOURCE_FOLDER="$SCRIPT_DIR/source/"
 
 touch "$PATH_TO_PASS_SH"
-chmod u=rw,g=,o= "$PATH_TO_PASS_SH"
+chmod u=rw,g=r,o=r "$PATH_TO_PASS_SH"
 
 if [ "$#" -eq 1 ]; then
   if [[ -n "$1" ]]; then
