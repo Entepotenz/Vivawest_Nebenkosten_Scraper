@@ -5,7 +5,7 @@ description = ""
 authors = ["floriankretschmer <entepotenz@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.11"
 selenium = "4.28.1"
 requests = "2.32.3"
 
