@@ -5,17 +5,17 @@ description = ""
 authors = ["floriankretschmer <entepotenz@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
-selenium = "4.28.1"
+python = "^3.11"
+selenium = "4.32.0"
 requests = "2.32.3"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 black = "25.1.0"
 yapf = "0.43.0"
 toml = "0.10.2"
 mypy = "1.15.0"
-flake8 = "7.1.1"
-ruff = "0.9.4"
+flake8 = "7.2.0"
+ruff = "0.11.7"
 types-requests = "2.32.0.20241016"
 
 [build-system]

@@ -22,12 +22,12 @@ jobs:
         run: pipx install poetry
       - name: Get changed files
         id: changed-files-specific
-        uses: tj-actions/changed-files@dcc7a0cba800f454d79fff4b993e8c3555bcc0a8 # v45.0.7
+        uses: tj-actions/changed-files@a284dc1814e3fd07f2e34267fc8f81227ed29fb8 # v45.0.9
         with:
           files: |
             **/*.py
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         if: steps.changed-files-specific.outputs.any_changed == 'true'
         with:
           python-version: ${{ matrix.python-version }}
@@ -38,7 +38,7 @@ jobs:
           poetry install --with dev --no-interaction
           poetry run yapf --style google -ir ./source
           poetry run black ./source
-      - uses: stefanzweifel/git-auto-commit-action@e348103e9026cc0eee72ae06630dbe30c8bf7a79 # v5.1.0
+      - uses: stefanzweifel/git-auto-commit-action@b863ae1933cb653a53c021fe36dbb774e1fb9403 # v5.2.0
         if: steps.changed-files-specific.outputs.any_changed == 'true'
         with:
           file_pattern: "*.py"
