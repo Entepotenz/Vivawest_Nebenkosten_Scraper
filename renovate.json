@@ -4,7 +4,6 @@
     ":disableRateLimiting",
     "config:best-practices",
     "customManagers:dockerfileVersions",
-    "helpers:pinGitHubActionDigests",
     "mergeConfidence:all-badges",
     "security:openssf-scorecard"
   ],
