@@ -1,37 +1,22 @@
-# syntax=docker/dockerfile:1@sha256:9857836c9ee4268391bb5b09f9f157f3c91bb15821bb77969642813b0d00518d
-FROM docker.io/library/alpine:3.21.3@sha256:a8560b36e8b8210634f77d9f7f9efd7ffa463e380b75e2e74aff4511df3ef88c AS builder
-
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-
-SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
-
-ENV PATH=/usr/local/bin:$PATH
+FROM docker.io/library/python:3.13.5-alpine3.22@sha256:9b4929a72599b6c6389ece4ecbf415fd1355129f22bb92bb137eea098f05e975 AS builder
 
 ENV LANG=de_DE.UTF-8
 ENV LC_ALL=de_DE.UTF-8
 
-RUN apk add --no-cache \
-  python3 \
-  python3-dev \
-  py3-pip \
-  poetry \
-  build-base \
-  #    musl-locales \
-  #    musl-locales-lang \
-  && rm -rf /var/cache/apk/*
-
-RUN python3 --version; \
-  pip3 --version; \
-  poetry --version
+ENV POETRY_NO_INTERACTION=1 \
+    POETRY_VIRTUALENVS_IN_PROJECT=1 \
+    POETRY_VIRTUALENVS_CREATE=1 \
+    POETRY_CACHE_DIR=/tmp/poetry_cache
 
 WORKDIR /app
 
+RUN apk add poetry
+
 COPY pyproject.toml poetry.lock ./
 
-RUN poetry export --without dev --format=requirements.txt | pip install --no-cache-dir --target=/dependencies -r /dev/stdin;
+RUN poetry install --without dev --no-root && rm -rf $POETRY_CACHE_DIR
 
-FROM docker.io/library/alpine:3.21.3@sha256:a8560b36e8b8210634f77d9f7f9efd7ffa463e380b75e2e74aff4511df3ef88c
+FROM docker.io/library/python:3.13.5-alpine3.22@sha256:9b4929a72599b6c6389ece4ecbf415fd1355129f22bb92bb137eea098f05e975
 
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
@@ -46,18 +31,19 @@ RUN addgroup --system python && \
   adduser -S -s /bin/false -G python python
 
 RUN apk add --no-cache \
-  python3 \
   chromium-chromedriver \
   #    musl-locales \
   #    musl-locales-lang \
   && rm -rf /var/cache/apk/*
 
-COPY --chown=python:python --from=builder /dependencies /usr/local
-ENV PYTHONPATH=/usr/local
+ENV VIRTUAL_ENV=/app/.venv \
+    PATH="/app/.venv/bin:$PATH"
 
 RUN python3 --version
 
 WORKDIR /app
+
+COPY --chown=python:python --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
 COPY --chown=python:python source/ /app/source/
 
