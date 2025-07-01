@@ -10,7 +10,7 @@ ENV POETRY_NO_INTERACTION=1 \
 
 WORKDIR /app
 
-RUN apk add poetry
+RUN apk add --no-cache poetry
 
 COPY pyproject.toml poetry.lock ./
 
