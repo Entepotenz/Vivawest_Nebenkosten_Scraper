@@ -11,3 +11,4 @@ sudo chown vscode .venv || true
 # make the python binary location predictable
 poetry config virtualenvs.in-project true
 poetry install --with=dev --no-root || true
+poetry run pre-commit install

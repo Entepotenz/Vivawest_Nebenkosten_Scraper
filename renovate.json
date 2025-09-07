@@ -7,18 +7,14 @@
     "mergeConfidence:all-badges",
     "security:openssf-scorecard"
   ],
-  "enabledManagers": [
-    "dockerfile",
-    "github-actions",
-    "poetry",
-    "custom.regex"
-  ],
+  "enabledManagers": ["dockerfile", "github-actions", "poetry", "custom.regex"],
+  "pre-commit": {
+    "enabled": true
+  },
   "customManagers": [
     {
       "customType": "regex",
-      "managerFilePatterns": [
-        "/run-.+.sh/"
-      ],
+      "managerFilePatterns": ["/run-.+.sh/"],
       "matchStrings": [
         "DOCKER_IMAGE=\"(?<depName>.*?):(?<currentValue>.*?)@(?<currentDigest>sha256:[a-f0-9]+)\""
       ],
@@ -29,18 +25,11 @@
     {
       "groupName": "GitHub Artifact Actions",
       "enabled": true,
-      "matchManagers": [
-        "github-actions"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ]
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor", "patch"]
     },
     {
-      "matchManagers": [
-        "poetry"
-      ],
+      "matchManagers": ["poetry"],
       "groupName": "Testing/Linting Tools",
       "minimumReleaseAge": "3 days",
       "matchPackageNames": [
