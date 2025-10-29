@@ -7,7 +7,6 @@
     "mergeConfidence:all-badges",
     "security:openssf-scorecard"
   ],
-  "enabledManagers": ["dockerfile", "github-actions", "poetry", "custom.regex"],
   "pre-commit": {
     "enabled": true
   },
