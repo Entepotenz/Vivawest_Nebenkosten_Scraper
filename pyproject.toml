@@ -10,7 +10,7 @@ selenium = "4.38.0"
 requests = "2.32.5"
 
 [tool.poetry.group.dev.dependencies]
-black = "25.9.0"
+black = "25.11.0"
 yapf = "0.43.0"
 toml = "0.10.2"
 mypy = "1.18.2"
