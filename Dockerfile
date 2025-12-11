@@ -1,4 +1,4 @@
-FROM docker.io/library/python:3.14.0-alpine3.22@sha256:8373231e1e906ddfb457748bfc032c4c06ada8c759b7b62d9c73ec2a3c56e710 AS builder
+FROM docker.io/library/python:3.14.2-alpine3.22@sha256:91859223a313a4407c239afb3a8e68bddc3dbfb0d24ddc5bdeb029136b55b150 AS builder
 
 ENV LANG=de_DE.UTF-8
 ENV LC_ALL=de_DE.UTF-8
@@ -16,7 +16,7 @@ COPY pyproject.toml poetry.lock ./
 
 RUN poetry install --without dev --no-root && rm -rf $POETRY_CACHE_DIR
 
-FROM docker.io/library/python:3.14.0-alpine3.22@sha256:8373231e1e906ddfb457748bfc032c4c06ada8c759b7b62d9c73ec2a3c56e710
+FROM docker.io/library/python:3.14.2-alpine3.22@sha256:91859223a313a4407c239afb3a8e68bddc3dbfb0d24ddc5bdeb029136b55b150
 
 SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
 
