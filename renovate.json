@@ -1,11 +1,19 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    ":disableRateLimiting",
-    "config:best-practices",
-    "customManagers:dockerfileVersions",
-    "mergeConfidence:all-badges",
-    "security:openssf-scorecard"
+    "github>Entepotenz/renovate_custom_presets//default.json",
+    "github>Entepotenz/renovate_custom_presets//group-linters.json",
+    "github>Entepotenz/renovate_custom_presets//group-github-actions.json",
+    "github>Entepotenz/renovate_custom_presets//group-python-testing-and-linting-packages.json"
+  ],
+  "packageRules": [
+    {
+      "matchDatasources": ["pypi"],
+      "matchManagers": ["pip_requirements", "poetry"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "Python dependencies",
+      "enabled": true
+    }
   ],
   "pre-commit": {
     "enabled": true
@@ -18,27 +26,6 @@
         "DOCKER_IMAGE=\"(?<depName>.*?):(?<currentValue>.*?)@(?<currentDigest>sha256:[a-f0-9]+)\""
       ],
       "datasourceTemplate": "docker"
-    }
-  ],
-  "packageRules": [
-    {
-      "groupName": "GitHub Artifact Actions",
-      "enabled": true,
-      "matchManagers": ["github-actions"],
-      "matchUpdateTypes": ["minor", "patch"]
-    },
-    {
-      "matchManagers": ["poetry"],
-      "groupName": "Testing/Linting Tools",
-      "minimumReleaseAge": "3 days",
-      "matchPackageNames": [
-        "/^black/",
-        "/^coverage/",
-        "/^flake8/",
-        "/^mypy/",
-        "/^pytest/",
-        "/^ruff/"
-      ]
     }
   ]
 }
