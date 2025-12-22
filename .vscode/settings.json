@@ -2,12 +2,11 @@
     "editor.formatOnSave": true,
     "cSpell.language": "en,de,de-DE",
     "files.associations": {},
-    "ansible.validation.lint.arguments": "--fix",
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter",
         "editor.formatOnSave": true,
         "editor.codeActionsOnSave": {
-            "source.organizeImports": "explicit"
+            "source.organizeImports": "always"
         },
     },
     "[json]": {
@@ -24,5 +23,17 @@
         "--profile",
         "black"
     ],
+    "mypy-type-checker.args": [
+        "run",
+        "--",
+        "--ignore-missing-imports",
+        "--show-column-numbers",
+        "--no-pretty",
+        "--python-executable",
+        "./.venv/bin/python"
+    ],
     "flake8.importStrategy": "fromEnvironment",
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "python.defaultInterpreterPath": "./.venv/bin/python",
 }
