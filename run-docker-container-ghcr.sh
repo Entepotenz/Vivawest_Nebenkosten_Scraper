@@ -9,6 +9,8 @@ SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 readonly DOCKER_IMAGE_NAME="ghcr.io/entepotenz/vivawest_nebenkosten_scraper:latest"
 readonly PATH_TO_PASS_SH="$SCRIPT_DIR/pass.sh"
 
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
+
 docker run --rm \
   --pull always \
   --cap-drop ALL \
