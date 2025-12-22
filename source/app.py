@@ -15,5 +15,7 @@ def get_as_html():
 def get_as_json():
     username = os.environ.get("USERNAME", None)
     password = os.environ.get("PASSWORD", None)
+    headless_env = os.getenv("SELENIUM_HEADLESS", "true")
+    headless = str(headless_env).lower() in ("1", "true", "yes", "y")
 
-    return scraping.scrape_site(URL, username, password)
+    return scraping.scrape_site(URL, username, password, headless)
