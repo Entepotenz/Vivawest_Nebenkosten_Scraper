@@ -34,15 +34,15 @@ def run_selenium_login(driver, username: str, password: str):
                 (By.ID, "usercentrics-root")
             )
         )
-        accept_button = driver.execute_script(
+        reject_button = driver.execute_script(
             """
             return document.querySelector('div#usercentrics-root')\
             .shadowRoot\
-            .querySelector('button[data-testid="uc-accept-all-button"]')
+            .querySelector('button[data-testid="uc-deny-all-button"]')
             """
         )
-        if accept_button:
-            accept_button.click()
+        if reject_button:
+            reject_button.click()
     except NoSuchElementException as exception:
         logging.warning(exception)
 
