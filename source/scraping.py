@@ -72,4 +72,20 @@ def create_requests_instance_from_selenium_driver(
     for cookie in driver.get_cookies():
         session.cookies.set(cookie["name"], cookie["value"])
 
+    # Try to copy the 'user' key from localStorage into a cookie named 'fe_typo_user'
+    try:
+        local_user = driver.execute_script(
+            "return window.localStorage.getItem('user');"
+        )
+        if local_user:
+            sessionToken = json.loads(local_user).get("sessionToken", None)
+            if sessionToken:
+                session.cookies.set("fe_typo_user", sessionToken)
+            else:
+                logging.debug("no 'sessionToken' found in localStorage 'user' value")
+        else:
+            logging.debug("no localStorage 'user' value found")
+    except Exception:
+        logging.debug("could not read localStorage 'user' value", exc_info=True)
+
     return session

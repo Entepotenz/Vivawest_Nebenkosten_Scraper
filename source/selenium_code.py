@@ -69,6 +69,14 @@ def run_selenium_login(driver, username: str, password: str):
     ).submit()
 
 
+def get_cookies(driver) -> dict:
+    all_cookies = driver.get_cookies()
+    cookies_dict = {}
+    for cookie in all_cookies:
+        cookies_dict[cookie["name"]] = cookie["value"]
+    return cookies_dict
+
+
 def get_authorization_bearer(driver) -> str:
     WebDriverWait(driver, max_wait_time_in_seconds).until(
         expected_conditions.element_to_be_clickable(
@@ -83,10 +91,7 @@ def get_authorization_bearer(driver) -> str:
         )
     )
     driver.find_elements(By.XPATH, "//div[text()[contains(.,'Verbräuche')]]")[0].click()
-    all_cookies = driver.get_cookies()
-    cookies_dict = {}
-    for cookie in all_cookies:
-        cookies_dict[cookie["name"]] = cookie["value"]
+    cookies_dict = get_cookies(driver)
 
     regex_for_bearer_token = r"Bearer\s+[A-Za-z0-9_]+"
 
