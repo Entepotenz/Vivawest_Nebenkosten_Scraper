@@ -112,7 +112,7 @@ def get_authorization_bearer(driver) -> str:
                 return match.group(0)
         time.sleep(3)
 
-    logging.error(f"Unable to find the Bearer token:")
+    logging.error("Unable to find the Bearer token:")
     return ""
 
 
