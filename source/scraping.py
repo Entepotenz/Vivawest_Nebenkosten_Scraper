@@ -24,7 +24,7 @@ def scrape_site(
 def get_heizenergie(driver, bearer_token: str) -> dict:
     data = get_data_from_api(
         driver,
-        "https://kundenportal.vivawest.de/api/uvi/current/heizenergie",
+        "https://api.kundenportal.vivawest.de/api-v2/uvi/current/heizenergie",
         bearer_token,
     )
 
@@ -34,14 +34,14 @@ def get_heizenergie(driver, bearer_token: str) -> dict:
 def get_kaltwasser(driver, bearer_token: str) -> dict:
     data = get_data_from_api(
         driver,
-        "https://kundenportal.vivawest.de/api/uvi/current/kaltwasser",
+        "https://api.kundenportal.vivawest.de/api-v2/uvi/current/kaltwasser",
         bearer_token,
     )
 
     return transform_data(data)
 
 
-def transform_data(data) -> dict:
+def transform_data(data: dict) -> dict:
     transformed_data = {}
     for messwert in data.get("messwerte"):
         month_as_string = str(messwert.get("monat"))
@@ -78,14 +78,14 @@ def create_requests_instance_from_selenium_driver(
             "return window.localStorage.getItem('user');"
         )
         if local_user:
-            sessionToken = json.loads(local_user).get("sessionToken", None)
-            if sessionToken:
-                session.cookies.set("fe_typo_user", sessionToken)
+            sessionId = json.loads(local_user).get("sessionId", None)
+            if sessionId:
+                session.cookies.set("fe_typo_user", sessionId)
             else:
-                logging.debug("no 'sessionToken' found in localStorage 'user' value")
+                logging.warning("no 'sessionId' found in localStorage 'user' value")
         else:
-            logging.debug("no localStorage 'user' value found")
+            logging.warning("no localStorage 'user' value found")
     except Exception:
-        logging.debug("could not read localStorage 'user' value", exc_info=True)
+        logging.warning("could not read localStorage 'user' value", exc_info=True)
 
     return session
