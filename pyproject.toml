@@ -7,8 +7,8 @@ package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.11"
-selenium = "4.41.0"
-requests = "2.33.0"
+selenium = "4.42.0"
+requests = "2.33.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "26.3.1"
@@ -16,8 +16,8 @@ yapf = "0.43.0"
 toml = "0.10.2"
 mypy = "1.20.0"
 flake8 = "7.3.0"
-ruff = "0.15.5"
-types-requests = "2.33.0.20260327"
+ruff = "0.15.8"
+types-requests = "2.33.0.20260408"
 pre-commit = "4.5.1"
 
 [build-system]
