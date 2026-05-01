@@ -7,7 +7,7 @@ if [[ "${TRACE-0}" == "1" ]]; then set -o xtrace; fi
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 
-DOCKER_IMAGE="python:3.14.3-slim@sha256:5e59aae31ff0e87511226be8e2b94d78c58f05216efda3b07dbbed938ec8583b"
+DOCKER_IMAGE="python:3.14.4-slim@sha256:c11aee3b3cae066f55d1e9318fc812673aa6557073b0db0d792b59491b262e0c"
 
 if ! command -v yapf &>/dev/null; then
   docker run --rm -it -v "$(pwd)/source:/source" $DOCKER_IMAGE bash -c "\
