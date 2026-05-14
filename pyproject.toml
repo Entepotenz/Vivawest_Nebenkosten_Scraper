@@ -17,7 +17,7 @@ toml = "0.10.2"
 mypy = "1.20.2"
 flake8 = "7.3.0"
 ruff = "0.15.12"
-types-requests = "2.33.0.20260503"
+types-requests = "2.33.0.20260508"
 pre-commit = "4.6.0"
 
 [build-system]
