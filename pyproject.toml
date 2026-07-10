@@ -7,19 +7,23 @@ package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.11"
-selenium = "4.43.0"
-requests = "2.33.1"
+selenium = "4.45.0"
+requests = "2.34.2"
 
 [tool.poetry.group.dev.dependencies]
-black = "26.3.1"
+black = "26.5.1"
 yapf = "0.43.0"
 toml = "0.10.2"
 mypy = "1.20.2"
 flake8 = "7.3.0"
-ruff = "0.15.12"
-types-requests = "2.33.0.20260503"
+ruff = "0.15.17"
+types-requests = "2.33.0.20260518"
 pre-commit = "4.6.0"
 
 [build-system]
 requires = ["poetry-core>=1.3.0"]
 build-backend = "poetry.core.masonry.api"
+
+# https://cooldowns.dev/#poetry
+[solver]
+min-release-age = 3
