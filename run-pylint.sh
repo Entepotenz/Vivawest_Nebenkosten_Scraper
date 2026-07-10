@@ -7,7 +7,7 @@ if [[ "${TRACE-0}" == "1" ]]; then set -o xtrace; fi
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 
-DOCKER_IMAGE="python:3.14.4-slim@sha256:c11aee3b3cae066f55d1e9318fc812673aa6557073b0db0d792b59491b262e0c"
+DOCKER_IMAGE="python:3.14.6-slim@sha256:b877e50bd90de10af8d82c57a022fc2e0dc731c5320d762a27986facfc3355c1"
 
 if ! command -v pylint &>/dev/null; then
   docker run --rm -it -v "$(pwd)/source:/source" \
