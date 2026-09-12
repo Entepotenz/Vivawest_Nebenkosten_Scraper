@@ -4,9 +4,9 @@ ENV LANG=de_DE.UTF-8
 ENV LC_ALL=de_DE.UTF-8
 
 ENV POETRY_NO_INTERACTION=1 \
-    POETRY_VIRTUALENVS_IN_PROJECT=1 \
-    POETRY_VIRTUALENVS_CREATE=1 \
-    POETRY_CACHE_DIR=/tmp/poetry_cache
+  POETRY_VIRTUALENVS_IN_PROJECT=1 \
+  POETRY_VIRTUALENVS_CREATE=1 \
+  POETRY_CACHE_DIR=/tmp/poetry_cache
 
 WORKDIR /app
 
@@ -28,7 +28,7 @@ ENV LC_ALL=de_DE.UTF-8
 #ENV MUSL_LOCPATH="/usr/share/i18n/locales/musl"
 
 RUN addgroup --system python && \
-  adduser -S -s /bin/false -G python python
+  adduser -S -s /bin/false -G python python --uid 1000
 
 RUN apk add --no-cache \
   chromium-chromedriver \
@@ -37,7 +37,7 @@ RUN apk add --no-cache \
   && rm -rf /var/cache/apk/*
 
 ENV VIRTUAL_ENV=/app/.venv \
-    PATH="/app/.venv/bin:$PATH"
+  PATH="/app/.venv/bin:$PATH"
 
 RUN python3 --version
 
@@ -47,7 +47,8 @@ COPY --chown=python:python --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
 COPY --chown=python:python source/ /app/source/
 
-USER python
+# USER python
+USER 1000
 
 CMD ["sh", "-c", "source /app/pass.sh; python source/main.py json"]
 #CMD ["sh", "-c", "source /app/pass.sh; python source/main.py"]
