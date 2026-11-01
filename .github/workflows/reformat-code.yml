@@ -27,7 +27,7 @@ jobs:
           files: |
             **/*.py
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         if: steps.changed-files-specific.outputs.any_changed == 'true'
         with:
           python-version: ${{ matrix.python-version }}
@@ -38,7 +38,7 @@ jobs:
           poetry install --with dev --no-interaction
           poetry run yapf --style google -ir ./source
           poetry run black ./source
-      - uses: stefanzweifel/git-auto-commit-action@4a55954c782fc1ea30b9056cd3e7a2b40ca8887d # v7.2.0
+      - uses: stefanzweifel/git-auto-commit-action@d0b01107b5db882071f96de5dd4b54961ea93f4c # v7.2.1
         if: steps.changed-files-specific.outputs.any_changed == 'true'
         with:
           file_pattern: "*.py"
