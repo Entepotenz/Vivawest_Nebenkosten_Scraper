@@ -64,6 +64,13 @@ def run_selenium_login(driver, username: str, password: str):
         By.XPATH, "//*[text()[contains(.,'Anmelden')]]/ancestor::button"
     ).submit()
 
+    WebDriverWait(driver, 30).until(
+        lambda browser: browser.execute_script(
+            "return JSON.parse(window.localStorage.getItem('user') || '{}').sessionId;"
+        ),
+        message="Login did not provide a sessionId in localStorage within 30 seconds",
+    )
+
 
 def get_cookies(driver) -> dict:
     all_cookies = driver.get_cookies()
