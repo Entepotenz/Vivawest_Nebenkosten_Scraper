@@ -16,8 +16,8 @@ yapf = "0.43.0"
 toml = "0.10.2"
 mypy = "2.4.0"
 flake8 = "7.4.1"
-ruff = "0.17.1"
-types-requests = "2.33.0.20261006"
+ruff = "0.17.3"
+types-requests = "2.33.0.20261030"
 pre-commit = "4.7.0"
 
 [build-system]
