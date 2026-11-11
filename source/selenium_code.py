@@ -34,13 +34,11 @@ def run_selenium_login(driver, username: str, password: str):
                 (By.ID, "usercentrics-root")
             )
         )
-        reject_button = driver.execute_script(
-            """
+        reject_button = driver.execute_script("""
             return document.querySelector('div#usercentrics-root')\
             .shadowRoot\
             .querySelector('button[data-testid="uc-deny-all-button"]')
-            """
-        )
+            """)
         if reject_button:
             reject_button.click()
     except NoSuchElementException as exception:
@@ -75,50 +73,6 @@ def get_cookies(driver) -> dict:
     for cookie in all_cookies:
         cookies_dict[cookie["name"]] = cookie["value"]
     return cookies_dict
-
-
-def get_authorization_bearer(driver) -> str:
-    WebDriverWait(driver, max_wait_time_in_seconds).until(
-        expected_conditions.element_to_be_clickable(
-            (By.XPATH, "//*[text()[contains(.,'Nebenkosten')]]")
-        )
-    )
-    driver.find_elements(By.XPATH, "//*[text()[contains(.,'Nebenkosten')]]")[0].click()
-
-    WebDriverWait(driver, max_wait_time_in_seconds).until(
-        expected_conditions.presence_of_element_located(
-            (By.XPATH, "//div[text()[contains(.,'Verbräuche')]]")
-        )
-    )
-    driver.find_elements(By.XPATH, "//div[text()[contains(.,'Verbräuche')]]")[0].click()
-    cookies_dict = get_cookies(driver)
-
-    regex_for_bearer_token = r"Bearer\s+[A-Za-z0-9_]+"
-
-    javascripts_to_check = set()
-
-    for item in driver.find_elements(By.TAG_NAME, "link"):
-        if item.get_attribute("as") == "script":
-            javascripts_to_check.add(item.get_attribute("href"))
-
-    for script in javascripts_to_check:
-        response = None
-        try:
-            if script.startswith("https://kundenportal.vivawest.de"):
-                response = requests.get(script, cookies=cookies_dict)
-            else:
-                response = requests.get(script)
-        except requests.exceptions.RequestException as e:
-            logging.warning(f"request failed for {script}; {e}")
-            raise
-        if response and "bearer" in response.text.lower():
-            match = re.search(regex_for_bearer_token, response.text)
-            if match:
-                return match.group(0)
-        time.sleep(3)
-
-    logging.error("Unable to find the Bearer token:")
-    return ""
 
 
 def run_selenium_logout(driver):

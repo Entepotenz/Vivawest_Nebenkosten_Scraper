@@ -13,29 +13,26 @@ def scrape_site(
 
     driver = selenium_code.run_selenium_init(url_to_scrape, headless=headless)
     selenium_code.run_selenium_login(driver, username, password)
-    bearer_token = selenium_code.get_authorization_bearer(driver)
-    result["heizenergie"] = get_heizenergie(driver, bearer_token)
-    result["kaltwasser"] = get_kaltwasser(driver, bearer_token)
+    result["heizenergie"] = get_heizenergie(driver)
+    result["kaltwasser"] = get_kaltwasser(driver)
     selenium_code.run_selenium_logout(driver)
 
     return result
 
 
-def get_heizenergie(driver, bearer_token: str) -> dict:
+def get_heizenergie(driver) -> dict:
     data = get_data_from_api(
         driver,
-        "https://api.kundenportal.vivawest.de/api-v2/uvi/current/heizenergie",
-        bearer_token,
+        "https://api.kundenportal.vivawest.de/rest/uvi/current/heizenergie",
     )
 
     return transform_data(data)
 
 
-def get_kaltwasser(driver, bearer_token: str) -> dict:
+def get_kaltwasser(driver) -> dict:
     data = get_data_from_api(
         driver,
-        "https://api.kundenportal.vivawest.de/api-v2/uvi/current/kaltwasser",
-        bearer_token,
+        "https://api.kundenportal.vivawest.de/rest/uvi/current/kaltwasser",
     )
 
     return transform_data(data)
@@ -53,8 +50,8 @@ def transform_data(data: dict) -> dict:
     return transformed_data
 
 
-def get_data_from_api(driver, url: str, bearer_token: str) -> dict:
-    session = create_requests_instance_from_selenium_driver(driver, bearer_token)
+def get_data_from_api(driver, url: str) -> dict:
+    session = create_requests_instance_from_selenium_driver(driver)
     response = session.get(url)
 
     if response.status_code == HTTPStatus.OK:
@@ -64,15 +61,11 @@ def get_data_from_api(driver, url: str, bearer_token: str) -> dict:
         return {}
 
 
-def create_requests_instance_from_selenium_driver(
-    driver, bearer_token: str
-) -> requests.Session:
+def create_requests_instance_from_selenium_driver(driver) -> requests.Session:
     session = requests.Session()
-    session.headers.update({"Authorization": bearer_token})
     for cookie in driver.get_cookies():
         session.cookies.set(cookie["name"], cookie["value"])
 
-    # Try to copy the 'user' key from localStorage into a cookie named 'fe_typo_user'
     try:
         local_user = driver.execute_script(
             "return window.localStorage.getItem('user');"
@@ -80,7 +73,7 @@ def create_requests_instance_from_selenium_driver(
         if local_user:
             sessionId = json.loads(local_user).get("sessionId", None)
             if sessionId:
-                session.cookies.set("fe_typo_user", sessionId)
+                session.cookies.set("session_id", sessionId)
             else:
                 logging.warning("no 'sessionId' found in localStorage 'user' value")
         else:
